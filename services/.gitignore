@@ -17,3 +17,6 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/*
+
+# other
+/fdl-web
