@@ -1,0 +1,16 @@
+{
+  "name": "fdl-services",
+  "version": "0.0.0",
+  "description": "Frequency Dictionary Learning Services",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Artemy Orekhov",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
