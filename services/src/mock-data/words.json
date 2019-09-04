@@ -2,6 +2,26 @@
     {
         "gram": "the",
         "known": true,
-        "freq": 0.1234
+        "count": 42424
+    },
+    {
+        "gram": "a",
+        "known": true,
+        "count": 42100
+    },
+    {
+        "gram": "code",
+        "known": true,
+        "count": 1301
+    },
+    {
+        "gram": "hack",
+        "known": false,
+        "count": 5304
+    },
+    {
+        "gram": "test",
+        "known": false,
+        "count": 42100
     }
 ]
