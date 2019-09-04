@@ -1,10 +1,10 @@
 const express = require('express');
 const path = require('path');
+const router = require('./src/router');
+
 const server = express();
 
-server.get('/api/test', (req, res) => {
-    res.status(200).send('Services are bootstrapped!').end();
-});
+server.use(router);
 
 server.use('/', express.static(path.join(__dirname,'fdl-web')));
 
