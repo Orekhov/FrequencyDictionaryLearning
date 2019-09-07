@@ -1,8 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #sidenav
-               class="mat-elevation-z10"
-               [mode]="isScreenSmall() ? 'over' : 'side'"
-               [opened]="!isScreenSmall()">
+  <mat-sidenav #sidenav class="mat-elevation-z10" [mode]="isScreenSmall() ? 'over' : 'side'"
+    [opened]="!isScreenSmall()">
     <mat-toolbar color="primary">
       Menu
     </mat-toolbar>
@@ -21,8 +19,10 @@
       <button mat-button (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
-      Menu
+      {{currentPageDisplayName}}
     </mat-toolbar>
-    Content
+
+    <router-outlet></router-outlet>
+
   </mat-sidenav-content>
 </mat-sidenav-container>

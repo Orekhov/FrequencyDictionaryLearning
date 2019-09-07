@@ -7,11 +7,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppMaterialModule } from './init/app-material.module';
 import { AppComponent } from './app.component';
 import { MainPageComponent } from './main-page/main-page.component';
+import { WordListComponent } from './word-list/word-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainPageComponent
+    MainPageComponent,
+    WordListComponent
   ],
   imports: [
     BrowserModule,
