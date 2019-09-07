@@ -29,7 +29,7 @@ const NGramEntries: NGramEntry[] = [
 })
 export class WordListComponent implements OnInit {
 
-  displayedColumns: string[] = ['ngram', 'addToLearned', 'count'];
+  displayedColumns: string[] = ['ngram', 'addToKnown', 'count'];
   dataSource = NGramEntries;
 
   constructor() { }
