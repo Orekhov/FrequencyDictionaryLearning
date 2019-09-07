@@ -3,7 +3,7 @@
     <ng-container matColumnDef="ngram">
         <th mat-header-cell *matHeaderCellDef> NGram </th>
         <td mat-cell *matCellDef="let element">
-            {{element.ngram}}
+            <a [routerLink]="['/ngram', element.ngram]">{{element.ngram}}</a>
         </td>
     </ng-container>
 
