@@ -7,10 +7,10 @@ function startServer() {
 
     server.use(router);
 
-    server.use('/', express.static(path.join(__dirname, 'fdl-web')));
+    server.use('/', express.static(path.join(__dirname, '../fdl-web')));
 
     server.get('*', function (req, res, next) {
-        res.sendFile(path.resolve('fdl-web/index.html'));
+        res.sendFile(path.resolve('../fdl-web/index.html'));
     });
 
     const port = process.env.PORT || 8080;
