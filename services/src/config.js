@@ -1,4 +1,5 @@
 const mongoDataSource = "mongo";
+const firestoreDataSource = "firestore";
 
 class Configuration {
     constructor(config) {
@@ -27,5 +28,6 @@ module.exports = {
     get serverConfiguration() {
         return getServerConfigurationInstance();
     },
-    mongoDataSource: mongoDataSource
+    mongoDataSource: mongoDataSource,
+    firestoreDataSource: firestoreDataSource
 };

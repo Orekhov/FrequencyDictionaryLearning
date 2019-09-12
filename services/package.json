@@ -4,7 +4,7 @@
   "description": "Frequency Dictionary Learning Services",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "node main.js -d firestore"
   },
   "author": "Artemy Orekhov",
   "engines": {
