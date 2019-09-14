@@ -1,0 +1,23 @@
+{
+  "name": "etl",
+  "version": "0.0.0",
+  "description": "ETL modules",
+  "main": "out/index.js",
+  "scripts": {
+    "a2m": "node ./out/etl/index.js --config a2m",
+    "build": "./node_modules/.bin/tsc",
+    "br1": "npm run build && node ./out/etl/index.js --config a2m",
+    "r1": "node ./out/etl/index.js --config a2m",
+    "d1": "node --inspect-brk ./out/etl/index.js --config a2m",
+    "bd1": "npm run build && node --inspect-brk ./out/etl/index.js --config a2m"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^12.7.5",
+    "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "commander": "^3.0.1"
+  }
+}

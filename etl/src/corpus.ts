@@ -1,0 +1,1 @@
+import { UniGram } from "types/ngram";
