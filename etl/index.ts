@@ -1,4 +1,4 @@
 import { start } from './src/main';
 (async () => {
-    start();
+    await start();
 })();
