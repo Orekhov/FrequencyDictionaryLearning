@@ -1,8 +1,8 @@
 import { Command } from "commander";
 import { configs, SourceFormat } from "./etl-configs";
-import { AnkiTxtExtractor } from "./ankitxt-extractor";
+import { AnkiTxtExtractor } from "./extract/ankitxt-extractor";
 
-export function start() {
+export async function start() {
     const program = new Command();
 
     program.option('-c, --config <value>', 'display help message');
@@ -18,11 +18,13 @@ export function start() {
 
     if (activeConfiguration.sourceFormat === SourceFormat.AnkiTxt) {
         const extractor = new AnkiTxtExtractor();
-        extractor.extract({
+        const corpus = await extractor.extract({
             filePath: activeConfiguration.sourceOptions.path,
+            fieldNumber: activeConfiguration.sourceOptions.fieldNumber,
             known: activeConfiguration.known,
             NGramLength: 3
-        })
+        });
+        // load to DB
     };
 
     console.log('Finished');

@@ -21,7 +21,8 @@ export const configs: EtlConfig[] = [
         description: "Anki text file to mongo db",
         sourceFormat: SourceFormat.AnkiTxt,
         sourceOptions: {
-            path: "anki.txt"
+            path: "anki.txt",
+            fieldNumber: 0
         },
         dest: Destination.Mongo,
         known: true
