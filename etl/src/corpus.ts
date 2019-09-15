@@ -28,10 +28,17 @@ export class TriGram extends NGram {
 
 }
 
+export class CorpusSourceIdentity {
+    public description: string = "";
+    public unigramsCount: number = NaN;
+    public length: number = NaN;
+}
+
 export class Corpus {
     public unigrams: UniGram[] = [];
     public bigrams: BiGram[] = [];
     public trigrams: TriGram[] = [];
+    public sourceIdentity: CorpusSourceIdentity = new CorpusSourceIdentity();
 
     addToken(token: string, known: boolean) {
         this.addNgram(token, known, this.unigrams);
@@ -47,7 +54,7 @@ export class Corpus {
 
     addNgram(ngram: string, known: boolean, ngrams: NGram[], ) {
         const existingNgram = ngrams.find(b => b.item === ngram);
-        if(!existingNgram) {
+        if (!existingNgram) {
             const newNgram = new NGram(ngram, 1, known, this.dateNow());
             ngrams.push(newNgram);
         } else {

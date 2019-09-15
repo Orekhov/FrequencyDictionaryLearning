@@ -15,6 +15,7 @@ export class AnkiTxtExtractor {
 
         const ankiDeckTxt = await this.readFromFile(params.filePath);
         let ankiNotes = this.getAnkiNotes(ankiDeckTxt);
+        let sourceLength = 0;
 
         ankiNotes.forEach(ankiNote => {
             const tabChar = String.fromCharCode(9);
@@ -31,7 +32,11 @@ export class AnkiTxtExtractor {
             ankiFieldTrigrams.forEach(trigram => {
                 corpus.addTrigram(trigram, params.known);
             });
+            sourceLength += ankiField.length;
         });
+        corpus.sourceIdentity.description = "Loaded from anki deck";
+        corpus.sourceIdentity.length = sourceLength;
+        corpus.sourceIdentity.unigramsCount = corpus.unigrams.length;
 
         corpus.unigrams = corpus.unigrams.sort(this.sortDesc);
         corpus.bigrams = corpus.bigrams.sort(this.sortDesc);
