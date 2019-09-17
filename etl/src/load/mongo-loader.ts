@@ -1,6 +1,6 @@
 import { Corpus, NGram, UniGram, BiGram, TriGram, CorpusSourceIdentity } from '../corpus';
 import { MongoClient, Db, Collection } from 'mongodb';
-import { NGramDbEntry, CountDbEntry, SourceIdentityDbEntry } from './mongo-types';
+import { NGramDbEntry, CountDbEntry, SourceIdentityDbEntry } from './db-types';
 
 const url = 'mongodb://localhost:27017';
 const dbName = 'FDL';
