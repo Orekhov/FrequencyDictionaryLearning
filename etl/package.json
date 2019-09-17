@@ -7,10 +7,10 @@
     "a2m": "node ./out/index.js --config a2m",
     "prebuild": "./node_modules/.bin/rimraf ./out",
     "build": "./node_modules/.bin/tsc",
-    "br": "npm run build && node ./out/index.js --config a2m",
-    "r": "node ./out/index.js --config a2m",
-    "d": "node --inspect-brk ./out/index.js --config a2m",
-    "bd": "npm run build && node --inspect-brk ./out/index.js --config a2m"
+    "br": "npm run build && node ./out/index.js --config a2cf",
+    "r": "node ./out/index.js --config a2cf",
+    "d": "node --inspect-brk ./out/index.js --config a2cf",
+    "bd": "npm run build && node --inspect-brk ./out/index.js --config a2cf"
   },
   "author": "",
   "license": "MIT",
@@ -20,6 +20,7 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
+    "@google-cloud/firestore": "^2.3.0",
     "@types/fs-extra": "^8.0.0",
     "@types/mongodb": "^3.3.1",
     "commander": "^3.0.1",

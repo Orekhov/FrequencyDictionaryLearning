@@ -3,6 +3,7 @@ import { configs, SourceFormat, EtlConfig, Destination } from "./etl-configs";
 import { AnkiTxtExtractor } from "./extract/ankitxt-extractor";
 import { Corpus } from "./corpus";
 import { MongoLoader } from "./load/mongo-loader";
+import { FirestoreLoader } from "./load/firestore-loader";
 
 export async function start() {
     try {
@@ -51,6 +52,9 @@ async function load(activeConfiguration: EtlConfig, corpus: Corpus) {
     if (activeConfiguration.dest === Destination.Mongo) {
         const loader = new MongoLoader();
         await loader.load(corpus);
+    } else if(activeConfiguration.dest === Destination.Firestore) {
+        const loader = new FirestoreLoader();
+        await loader.load(corpus, activeConfiguration.destOptions);
     } else {
         throw `Unknown dest format: ${activeConfiguration.dest}`;
     }

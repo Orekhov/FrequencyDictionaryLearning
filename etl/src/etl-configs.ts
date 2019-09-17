@@ -4,6 +4,7 @@ export interface EtlConfig {
     sourceFormat: SourceFormat,
     sourceOptions: any,
     dest: Destination,
+    destOptions: any,
     known: boolean
 }
 
@@ -12,7 +13,8 @@ export enum SourceFormat {
 }
 
 export enum Destination {
-    Mongo
+    Mongo,
+    Firestore
 }
 
 export const configs: EtlConfig[] = [
@@ -25,6 +27,21 @@ export const configs: EtlConfig[] = [
             fieldNumber: 0
         },
         dest: Destination.Mongo,
+        destOptions: {},
+        known: true
+    }, 
+    {
+        id: "a2cf",
+        description: "Anki text file to google cloud firestore",
+        sourceFormat: SourceFormat.AnkiTxt,
+        sourceOptions: {
+            path: "anki.txt",
+            fieldNumber: 0
+        },
+        dest: Destination.Firestore,
+        destOptions: {
+            serviceAccountKeyJsonPath: "serviceAccountKey.json"
+        },
         known: true
     }
 ]
