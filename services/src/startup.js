@@ -3,15 +3,20 @@ const config = require('./config');
 const data = require('./data');
 const server = require('./server');
 
-function start() {
-    const program = new commander.Command();
-    program.option('-d, --data-source <type>', 'Underlying data source to be used', config.mongoDataSource);
-    program.parse(process.argv);
-    config.init({
-        dataSource: program.dataSource
-    });
-    data.dataAccess.init();
-    server.startServer();
+async function start() {
+    try {
+        const program = new commander.Command();
+        program.option('-d, --data-source <type>', 'Underlying data source to be used', config.mongoDataSource);
+        program.parse(process.argv);
+        config.init({
+            dataSource: program.dataSource
+        });
+        await data.dataAccess.init();
+        server.startServer();
+    } catch (error) {
+        console.error('Error on server startup.');
+        console.error(error);
+    }
 }
 
 module.exports = start;

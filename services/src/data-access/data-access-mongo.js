@@ -4,7 +4,7 @@ const url = 'mongodb://localhost:27017';
 const dbName = 'FDL';
 let client;
 
-function init() {
+async function init() {
     client = new MongoClient(url, {useNewUrlParser: true, useUnifiedTopology: true});
     client.connect(function(err) {
         if(err) {

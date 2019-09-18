@@ -9,10 +9,22 @@ router.get('/api/test', (req, res) => {
 });
 
 router.get('/api/words', (req, res) => {
-    const {lang} = req.query;
+    const { lang } = req.query;
     res.status(200)
-    .json(wordsMock)
-    .end();
+        .json(wordsMock)
+        .end();
+});
+
+router.get('/api/unigrams', async (req, res) => {
+    const { limit } = req.query;
+    limitN = parseInt(limit);
+    if(!Number.isInteger(limitN)) {
+        limitN = 10;
+    }
+    const unigrams = await data.dataAccess.getUnigrams(limitN, search);
+    res.status(200)
+        .json(unigrams)
+        .end();
 });
 
 router.get('/api/testadd', (req, res) => {

@@ -1,2 +1,4 @@
 const startup = require('./src/startup');
-startup();
+(async () => {
+    await startup();
+})();
