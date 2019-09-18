@@ -21,7 +21,7 @@ router.get('/api/unigrams', async (req, res) => {
     if(!Number.isInteger(limitN)) {
         limitN = 10;
     }
-    const unigrams = await data.dataAccess.getUnigrams(limitN, search);
+    const unigrams = await data.dataAccess.getUnigrams(limitN);
     res.status(200)
         .json(unigrams)
         .end();
