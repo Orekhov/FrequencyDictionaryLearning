@@ -10,6 +10,7 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { WordListComponent } from './word-list/word-list.component';
 import { NgramViewComponent } from './ngram-view/ngram-view.component';
 import { StatsComponent } from './stats/stats.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
@@ -19,7 +20,8 @@ import { environment } from '../environments/environment';
     MainPageComponent,
     WordListComponent,
     NgramViewComponent,
-    StatsComponent
+    StatsComponent,
+    PrivacyPolicyComponent
   ],
   imports: [
     BrowserModule,

@@ -4,6 +4,7 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { WordListComponent } from './word-list/word-list.component';
 import { NgramViewComponent } from './ngram-view/ngram-view.component';
 import { StatsComponent } from './stats/stats.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 
 const routes: Routes = [
@@ -23,6 +24,13 @@ const routes: Routes = [
         component: StatsComponent,
         data: {
           title: 'My statistics'
+        }
+      },
+      {
+        path: 'privacy-policy',
+        component: PrivacyPolicyComponent,
+        data: {
+          title: 'NGram Dict Privacy Policy'
         }
       },
       {
