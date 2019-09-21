@@ -10,6 +10,8 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { WordListComponent } from './word-list/word-list.component';
 import { NgramViewComponent } from './ngram-view/ngram-view.component';
 import { StatsComponent } from './stats/stats.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { StatsComponent } from './stats/stats.component';
     BrowserAnimationsModule,
     FlexLayoutModule,
     AppMaterialModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]
