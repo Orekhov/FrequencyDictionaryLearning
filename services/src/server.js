@@ -4,19 +4,16 @@ const router = require('./router');
 
 function startServer() {
     const server = express();
-
     server.use(router);
 
-    server.use('/', express.static(path.join(__dirname, '../fdl-web')));
+    const staticFilesPath = path.join(__dirname, '../fdl-web');
+    const indexHtmlPath = path.join(staticFilesPath, 'index.html');
 
-    server.get('*', function (req, res, next) {
-        res.sendFile(path.resolve('../fdl-web/index.html'));
-    });
+    server.use('/', express.static(staticFilesPath));
+    server.get('*', (req, res, next) => res.sendFile(indexHtmlPath));
 
     const port = process.env.PORT || 8080;
-    server.listen(port, () => {
-        console.log(`listening on port ${port}`);
-    });
+    server.listen(port, () => console.log(`listening on port ${port}`));
 }
 
 module.exports = {
