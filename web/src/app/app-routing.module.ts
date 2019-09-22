@@ -5,11 +5,15 @@ import { WordListComponent } from './word-list/word-list.component';
 import { NgramViewComponent } from './ngram-view/ngram-view.component';
 import { StatsComponent } from './stats/stats.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { AuthGuard } from './services/auth.guard';
+import { WelcomeGuard } from './services/welcome.guard';
 
 
 const routes: Routes = [
   {
     path: '',
+    canActivate: [AuthGuard],
     component: MainPageComponent,
     children: [
       {
@@ -43,6 +47,11 @@ const routes: Routes = [
   {
     path: 'ngram/:ngram',
     component: NgramViewComponent
+  },
+  {
+    path: 'welcome',
+    canActivate: [WelcomeGuard],
+    component: WelcomeComponent
   },
   {
     path: '**',

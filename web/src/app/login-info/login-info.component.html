@@ -1,0 +1,4 @@
+<div *ngIf="isUserLoggedIn" class="login-info">
+  <a mat-button (click)="onLogout()">Sign out</a>
+  <img [src]="userProfile.imgUrl"/>
+</div>

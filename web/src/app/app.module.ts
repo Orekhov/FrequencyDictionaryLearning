@@ -13,6 +13,10 @@ import { StatsComponent } from './stats/stats.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { AuthService } from './services/auth.service';
+import { HttpClientModule } from '@angular/common/http';
+import { LoginInfoComponent } from './login-info/login-info.component';
 
 @NgModule({
   declarations: [
@@ -21,17 +25,22 @@ import { environment } from '../environments/environment';
     WordListComponent,
     NgramViewComponent,
     StatsComponent,
-    PrivacyPolicyComponent
+    PrivacyPolicyComponent,
+    WelcomeComponent,
+    LoginInfoComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
     AppMaterialModule,
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [],
+  providers: [
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
