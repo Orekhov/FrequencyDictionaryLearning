@@ -1,26 +1,34 @@
-import { Corpus, UniGram, NGram } from "src/corpus";
+import { Corpus, UniGram, NGram, CorpusSourceIdentity } from "src/corpus";
 import * as path from 'path';
+import * as readline from 'readline';
 import * as fs from 'fs-extra';
 import { Firestore } from "@google-cloud/firestore";
-import { NGramDbEntry, CountDbEntry, INGramDbEntry } from "./db-types";
+import { NGramDbEntry, CountDbEntry, INGramDbEntry, SourceIdentityDbEntry } from "./db-types";
+import { EtlConfig } from "src/etl-configs";
 
 export class FirestoreLoader {
 
     // only clean load is supported, ensure clean DB as it won't be cleared.
     sourceNumber: number = 1;
 
-    async load(corpus: Corpus, config: any) {
-        const db = await this.initDb(config.serviceAccountKeyJsonPath);
+    async load(corpus: Corpus, config: EtlConfig) {
+        const db = await this.initDb(config.destOptions.serviceAccountKeyJsonPath);
 
-        // this.loadUnigrams(db, corpus.unigrams);
+        await this.loadNGram(db, config, 'unigrams', corpus.unigrams);
+        await this.loadNGram(db, config, 'bigrams', corpus.bigrams);
+        await this.loadNGram(db, config, 'trigrams', corpus.trigrams);
+        await this.loadSourceIdentity(db, config, corpus.sourceIdentity);
     }
 
-    private async loadUnigrams(db: Firestore, unigrams: UniGram[]) {
-        const collection = db.collection('unigrams');
-        await this.loadNGram(collection, unigrams);
+    private getCollection(db: Firestore, config: EtlConfig, collectionRootName: string) : FirebaseFirestore.CollectionReference {
+        const collectionName = `${config.userId}#${config.language}#${collectionRootName}`;
+        console.log(`Populating ${collectionName}`);
+        return db.collection(collectionName);
     }
 
-    private async loadNGram(collectionReference: FirebaseFirestore.CollectionReference, ngrams: NGram[]) {
+    private async loadNGram(db: Firestore, config: EtlConfig, collectionRootName: string, ngrams: NGram[]) {
+        const collectionReference = this.getCollection(db, config, collectionRootName);
+
         const ngramsDb: INGramDbEntry[] = ngrams.map(n => {
             return <INGramDbEntry>{
                 item: n.item,
@@ -29,15 +37,25 @@ export class FirestoreLoader {
                 totalCount: n.count,
                 counts: [{ s: this.sourceNumber, c: n.count }]
             };
-        })
+        });
         const itemCount = ngramsDb.length;
         for (let i = 0; i < itemCount; i++) {
             const nGramDbEntry = ngramsDb[i];
-            await collectionReference.doc(nGramDbEntry.item).set(nGramDbEntry);
-            if (i % 10 === 0) {
-                console.log(`Added ${i} of ${itemCount} items`);
+            try {
+                await collectionReference.doc(nGramDbEntry.item).set(nGramDbEntry);
+            } catch (error) {
+                console.warn(`Could not add ${nGramDbEntry.item}`);
+                console.warn('Error message is:');
+                console.warn(error.message);
             }
+            this.reportProgress(i, itemCount);
         }
+    }
+
+    private reportProgress(current:number, total:number) {
+        readline.clearLine(process.stdout, 0);
+        readline.cursorTo(process.stdout, 0);
+        process.stdout.write(`Added ${current} of ${total}`);
     }
 
     private async initDb(serviceAccountKeyJsonPath: string) {
@@ -47,5 +65,24 @@ export class FirestoreLoader {
             projectId: serviceAccountKeyJson.project_id,
             keyFilename: resolvedFilePath,
         });
+    }
+
+    private async loadSourceIdentity(db: Firestore, config: EtlConfig, sourceIdentity: CorpusSourceIdentity) {
+        const collectionName = `${config.userId}#${config.language}#sources`;
+        console.log(`Populating ${collectionName}`);
+        const collectionReference =  db.collection(collectionName);
+        const sourceIdentityDb: SourceIdentityDbEntry = {
+            sourceNumber: this.sourceNumber,
+            description: sourceIdentity.description,
+            unigramsCount: sourceIdentity.unigramsCount,
+            bigramsCount: sourceIdentity.bigramsCount,
+            trigramsCount: sourceIdentity.trigramsCount,
+            charLength: sourceIdentity.charLength
+        };
+        try {
+            await collectionReference.doc(sourceIdentityDb.sourceNumber.toString()).set(sourceIdentityDb);
+        } catch (error) {
+            console.warn(error.message);
+        }
     }
 }

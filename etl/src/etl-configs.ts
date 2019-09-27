@@ -1,4 +1,9 @@
-export interface EtlConfig {
+export interface EtlConfig extends EtlConfigCore {
+    userId: string,
+    language: string
+}
+
+export interface EtlConfigCore {
     id: string,
     description: string,
     sourceFormat: SourceFormat,
@@ -17,7 +22,7 @@ export enum Destination {
     Firestore
 }
 
-export const configs: EtlConfig[] = [
+export const configs: EtlConfigCore[] = [
     {
         id: "a2m",
         description: "Anki text file to mongo db",

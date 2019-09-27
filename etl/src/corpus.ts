@@ -31,7 +31,9 @@ export class TriGram extends NGram {
 export class CorpusSourceIdentity {
     public description: string = "";
     public unigramsCount: number = NaN;
-    public length: number = NaN;
+    public bigramsCount: number = NaN;
+    public trigramsCount: number = NaN;
+    public charLength: number = NaN;
 }
 
 export class Corpus {

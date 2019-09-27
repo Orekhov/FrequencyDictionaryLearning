@@ -18,7 +18,9 @@ export async function start() {
 
 function loadConfiguration(): EtlConfig {
     const program = new Command();
-    program.option('-c, --config <value>', 'display help message');
+    program.option('-c, --config <value>', 'configuration to use');
+    program.option('-u, --user <value>', 'username');
+    program.option('-l, --language <value>', 'language');
     program.parse(process.argv);
 
     const activeConfiguration = configs.find((c) => c.id === program.config);
@@ -26,8 +28,22 @@ function loadConfiguration(): EtlConfig {
         throw `configuration not found: ${program.config}`;
     }
 
-    console.log(`Running ETL with the following config: ${activeConfiguration.description}`);
-    return activeConfiguration;
+    const userId = program.user;
+    if(userId === undefined) {
+        throw 'user must be specified';
+    }
+
+    const language = program.language;
+    if(language === undefined) {
+        throw 'language must be specified';
+    }
+
+    console.log(`Running ETL for user ${userId} with the following config: ${activeConfiguration.description}`);
+    return {
+        ...activeConfiguration,
+        userId: userId,
+        language: language
+    };
 }
 
 async function etl(activeConfiguration: EtlConfig) {
@@ -54,7 +70,7 @@ async function load(activeConfiguration: EtlConfig, corpus: Corpus) {
         await loader.load(corpus);
     } else if(activeConfiguration.dest === Destination.Firestore) {
         const loader = new FirestoreLoader();
-        await loader.load(corpus, activeConfiguration.destOptions);
+        await loader.load(corpus, activeConfiguration);
     } else {
         throw `Unknown dest format: ${activeConfiguration.dest}`;
     }

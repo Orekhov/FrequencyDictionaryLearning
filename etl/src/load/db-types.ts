@@ -38,19 +38,18 @@ export class NGramDbEntry implements INGramDbEntry {
 export interface ISourceIdentityDbEntry {
     sourceNumber: number;
     unigramsCount: number;
+    bigramsCount: number;
+    trigramsCount: number;
     description: string;
-    length: number;
+    charLength: number;
 }
 
 export class SourceIdentityDbEntry implements ISourceIdentityDbEntry {
-    sourceNumber: number;
-    unigramsCount: number;
-    description: string;
-    length: number;
-    constructor(sourceNumber: number, unigramsCount: number, description: string, length: number) {
-        this.sourceNumber = sourceNumber;
-        this.unigramsCount = unigramsCount;
-        this.description = description;
-        this.length = length;
-    }
+    constructor(
+        public sourceNumber: number,
+        public unigramsCount: number,
+        public bigramsCount: number,
+        public trigramsCount: number,
+        public description: string,
+        public charLength: number) { }
 }

@@ -48,7 +48,13 @@ export class MongoLoader {
     private async loadSourceIdentity(db: Db, cid: CorpusSourceIdentity) {
         const collection = db.collection('source-ids');
         await this.clearCollection(collection);
-        const sourceIdDbEntry = new SourceIdentityDbEntry(this.sourceNumber, cid.unigramsCount, cid.description, cid.length);
+        const sourceIdDbEntry = new SourceIdentityDbEntry(
+            this.sourceNumber, 
+            cid.unigramsCount, 
+            cid.bigramsCount,
+            cid.trigramsCount,
+            cid.description, 
+            cid.charLength);
         await collection.insertOne(sourceIdDbEntry);
     }
 

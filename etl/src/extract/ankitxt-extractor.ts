@@ -35,8 +35,10 @@ export class AnkiTxtExtractor {
             sourceLength += ankiField.length;
         });
         corpus.sourceIdentity.description = "Loaded from anki deck";
-        corpus.sourceIdentity.length = sourceLength;
+        corpus.sourceIdentity.charLength = sourceLength;
         corpus.sourceIdentity.unigramsCount = corpus.unigrams.length;
+        corpus.sourceIdentity.bigramsCount = corpus.bigrams.length;
+        corpus.sourceIdentity.trigramsCount = corpus.trigrams.length;
 
         corpus.unigrams = corpus.unigrams.sort(this.sortDesc);
         corpus.bigrams = corpus.bigrams.sort(this.sortDesc);
