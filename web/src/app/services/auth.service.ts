@@ -11,11 +11,30 @@ export interface UserProfile {
   imgUrl: string;
 }
 
+export interface AuthResponse {
+  id_token: string
+}
+
+export interface BasicProfile {
+  getEmail: () => string
+  getImageUrl: () => string
+}
+
+export interface GoogleUser {
+  getAuthResponse: () => AuthResponse
+  getBasicProfile: () => BasicProfile
+}
+
+export interface CurrectUser {
+  get: () => GoogleUser
+}
+
 export interface GoogleAuth {
   isSignedIn: any;
-  currentUser: any;
+  currentUser: CurrectUser;
   signOut: () => Promise<void>;
 }
+
 
 export interface GApi {
   load: any;
@@ -49,6 +68,12 @@ export class AuthService {
         email: basicProfile.getEmail(),
         imgUrl: basicProfile.getImageUrl()
       };
+    });
+  }
+
+  public getAuthResponse(): Promise<AuthResponse> {
+    return this.googleAuth.then((r) => {
+      return r.currentUser.get().getAuthResponse();
     });
   }
 
