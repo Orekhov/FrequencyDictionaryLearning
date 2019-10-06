@@ -1,10 +1,13 @@
 const express = require('express');
 const path = require('path');
 const router = require('./router');
+const auth = require('./auth');
 
 function startServer() {
+    const apiBasePath = '/api';
     const server = express();
-    server.use(router);
+    server.use(apiBasePath, auth.authenticate);
+    server.use(apiBasePath, router);
 
     const staticFilesPath = path.join(__dirname, '../fdl-web');
     const indexHtmlPath = path.join(staticFilesPath, 'index.html');

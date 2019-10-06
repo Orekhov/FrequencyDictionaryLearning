@@ -4,18 +4,18 @@ const data = require('./data');
 
 var router = express.Router();
 
-router.get('/api/test', (req, res) => {
+router.get('/test', (req, res) => {
     res.status(200).send('Services are bootstrapped!').end();
 });
 
-router.get('/api/words', (req, res) => {
+router.get('/words', (req, res) => {
     const { lang } = req.query;
     res.status(200)
         .json(wordsMock)
         .end();
 });
 
-router.get('/api/unigrams', async (req, res) => {
+router.get('/unigrams', async (req, res) => {
     const { limit } = req.query;
     limitN = parseInt(limit);
     if(!Number.isInteger(limitN)) {
@@ -27,7 +27,7 @@ router.get('/api/unigrams', async (req, res) => {
         .end();
 });
 
-router.get('/api/testadd', (req, res) => {
+router.get('/testadd', (req, res) => {
     data.dataAccess.insertUnigram({ ngram: "test", known: true, count: 42424, updated: new Date(Date.now()) });
     res.status(200).send('Added!').end();
 });

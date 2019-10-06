@@ -15,6 +15,7 @@
     "commander": "^3.0.1",
     "express": "^4.17.1",
     "fs-extra": "^8.1.0",
+    "google-auth-library": "^5.3.0",
     "mongodb": "^3.3.2"
   }
 }
