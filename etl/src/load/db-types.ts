@@ -14,6 +14,8 @@ export class CountDbEntry implements ICountDbEntry {
 
 export interface INGramDbEntry {
     item: string;
+    user: string;
+    lang: string;
     known: boolean;
     updated: Date;
     totalCount: Number;
@@ -21,22 +23,22 @@ export interface INGramDbEntry {
 }
 
 export class NGramDbEntry implements INGramDbEntry {
-    item: string;
-    known: boolean;
-    updated: Date;
     totalCount: Number;
-    counts: CountDbEntry[];
-    constructor(item: string, known: boolean, updated: Date, counts: CountDbEntry[]) {
-        this.item = item;
-        this.known = known;
-        this.updated = updated;
-        this.counts = counts;
+    constructor(
+        public item: string,
+        public user: string,
+        public lang: string,
+        public known: boolean,
+        public updated: Date,
+        public counts: CountDbEntry[]) {
         this.totalCount = counts[0].c;
     }
 }
 
 export interface ISourceIdentityDbEntry {
     sourceNumber: number;
+    user: string;
+    lang: string;
     unigramsCount: number;
     bigramsCount: number;
     trigramsCount: number;
@@ -47,6 +49,8 @@ export interface ISourceIdentityDbEntry {
 export class SourceIdentityDbEntry implements ISourceIdentityDbEntry {
     constructor(
         public sourceNumber: number,
+        public user: string,
+        public lang: string,
         public unigramsCount: number,
         public bigramsCount: number,
         public trigramsCount: number,

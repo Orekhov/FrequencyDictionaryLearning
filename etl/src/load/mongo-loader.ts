@@ -40,7 +40,7 @@ export class MongoLoader {
     private async loadNGram(collection: Collection, ngrams: NGram[]) {
         await this.clearCollection(collection);
         const ngramsDb: NGramDbEntry[] = ngrams.map(n => {
-            return new NGramDbEntry(n.item, n.known, n.updated, [new CountDbEntry(this.sourceNumber, n.count)]);
+            return new NGramDbEntry(n.item, "", "", n.known, n.updated, [new CountDbEntry(this.sourceNumber, n.count)]);
         })
         await collection.insertMany(ngramsDb);
     }
@@ -50,6 +50,8 @@ export class MongoLoader {
         await this.clearCollection(collection);
         const sourceIdDbEntry = new SourceIdentityDbEntry(
             this.sourceNumber, 
+            "",
+            "",
             cid.unigramsCount, 
             cid.bigramsCount,
             cid.trigramsCount,

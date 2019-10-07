@@ -20,8 +20,7 @@ export class FirestoreLoader {
         await this.loadSourceIdentity(db, config, corpus.sourceIdentity);
     }
 
-    private getCollection(db: Firestore, config: EtlConfig, collectionRootName: string) : FirebaseFirestore.CollectionReference {
-        const collectionName = `${config.userId}#${config.language}#${collectionRootName}`;
+    private getCollection(db: Firestore, config: EtlConfig, collectionName: string) : FirebaseFirestore.CollectionReference {
         console.log(`Populating ${collectionName}`);
         return db.collection(collectionName);
     }
@@ -32,6 +31,8 @@ export class FirestoreLoader {
         const ngramsDb: INGramDbEntry[] = ngrams.map(n => {
             return <INGramDbEntry>{
                 item: n.item,
+                user: config.userId,
+                lang: config.language,
                 known: n.known,
                 updated: n.updated,
                 totalCount: n.count,
@@ -42,7 +43,7 @@ export class FirestoreLoader {
         for (let i = 0; i < itemCount; i++) {
             const nGramDbEntry = ngramsDb[i];
             try {
-                await collectionReference.doc(nGramDbEntry.item).set(nGramDbEntry);
+                await collectionReference.add(nGramDbEntry);
             } catch (error) {
                 console.warn(`Could not add ${nGramDbEntry.item}`);
                 console.warn('Error message is:');
@@ -68,11 +69,13 @@ export class FirestoreLoader {
     }
 
     private async loadSourceIdentity(db: Firestore, config: EtlConfig, sourceIdentity: CorpusSourceIdentity) {
-        const collectionName = `${config.userId}#${config.language}#sources`;
+        const collectionName = `sources`;
         console.log(`Populating ${collectionName}`);
         const collectionReference =  db.collection(collectionName);
         const sourceIdentityDb: SourceIdentityDbEntry = {
             sourceNumber: this.sourceNumber,
+            user: config.userId,
+            lang: config.language,
             description: sourceIdentity.description,
             unigramsCount: sourceIdentity.unigramsCount,
             bigramsCount: sourceIdentity.bigramsCount,
@@ -80,7 +83,7 @@ export class FirestoreLoader {
             charLength: sourceIdentity.charLength
         };
         try {
-            await collectionReference.doc(sourceIdentityDb.sourceNumber.toString()).set(sourceIdentityDb);
+            await collectionReference.add(sourceIdentityDb);
         } catch (error) {
             console.warn(error.message);
         }
