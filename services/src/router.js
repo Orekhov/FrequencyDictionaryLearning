@@ -18,13 +18,38 @@ router.get('/words', (req, res) => {
 router.get('/unigrams', async (req, res) => {
     const { limit } = req.query;
     limitN = parseInt(limit);
-    if(!Number.isInteger(limitN)) {
+    if (!Number.isInteger(limitN)) {
         limitN = 10;
     }
     const unigrams = await data.dataAccess.getUnigrams(limitN);
     res.status(200)
         .json(unigrams)
         .end();
+});
+
+router.get('/ngrams/:lang/:type', async (req, res) => {
+    const { limit, known } = req.query;
+    const { lang, type } = req.params;
+    limitN = parseInt(limit);
+    if (!Number.isInteger(limitN)) {
+        limitN = 10;
+    }
+    var knownB = (known === 'true');
+    try {
+        const ngrams = await data.dataAccess.getNgrams({
+            userId: req.authenticatedUser.email,
+            language: lang,
+            nGramType: type,
+            limit: limitN,
+            known: knownB
+        });
+        res.status(200)
+            .json(ngrams)
+            .end();
+    } catch (error) {
+        console.warn(error);
+        res.status(400).end();
+    }
 });
 
 router.get('/testadd', (req, res) => {
