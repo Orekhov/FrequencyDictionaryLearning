@@ -6,6 +6,7 @@ const auth = require('./auth');
 function startServer() {
     const apiBasePath = '/api';
     const server = express();
+    server.use(express.json());
     server.use(apiBasePath, auth.authenticate);
     server.use(apiBasePath, router);
 

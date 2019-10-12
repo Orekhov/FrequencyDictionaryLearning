@@ -33,6 +33,11 @@ router.get('/ngrams/:lang/:type', async (req, res) => {
     }
 });
 
+router.post('/add-ngrams/raw/:lang/', async (req, res) => {
+    const rawText = req.body.rawText;
+    res.status(201).send({ok:"ok"}).end();
+});
+
 router.get('/testadd', (req, res) => {
     data.dataAccess.insertUnigram({ ngram: "test", known: true, count: 42424, updated: new Date(Date.now()) });
     res.status(200).send('Added!').end();
