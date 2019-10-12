@@ -9,8 +9,11 @@
         <a mat-flat-button routerLink="/main">My dictionary</a>
       </mat-list-item>
       <mat-list-item>
-          <a mat-flat-button routerLink="/stats">My statistics</a>
-        </mat-list-item>
+        <a mat-flat-button routerLink="/stats">My statistics</a>
+      </mat-list-item>
+      <mat-list-item>
+        <a mat-flat-button routerLink="/add">Add ngram</a>
+      </mat-list-item>
     </mat-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -24,7 +27,9 @@
       <app-login-info></app-login-info>
     </mat-toolbar>
 
-    <router-outlet></router-outlet>
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
 
   </mat-sidenav-content>
 </mat-sidenav-container>

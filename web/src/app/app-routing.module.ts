@@ -8,6 +8,7 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 import { WelcomeComponent } from './welcome/welcome.component';
 import { AuthGuard } from './services/auth.guard';
 import { WelcomeGuard } from './services/welcome.guard';
+import { AddNgramsComponent } from './add-ngrams/add-ngrams.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,13 @@ const routes: Routes = [
         component: WordListComponent,
         data: {
           title: 'My dictionary'
+        }
+      },
+      {
+        path: 'add',
+        component: AddNgramsComponent,
+        data: {
+          title: 'Add ngrams'
         }
       },
       {

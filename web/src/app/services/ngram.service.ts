@@ -8,6 +8,10 @@ export interface NGramEntry {
   totalCount: number;
 }
 
+interface RawTextInput {
+  rawText: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,5 +22,9 @@ export class NgramService {
   public getNgrams(type: string, known: string, limit: string): Observable<NGramEntry[]> {
     const params = new HttpParams().set('known', known).set('limit', limit);
     return this.httpClient.get<NGramEntry[]>(`/api/ngrams/no/${type}`, { params });
+  }
+
+  public addRaw(rawText: string): Observable<any> {
+    return this.httpClient.post<RawTextInput>(`/api/add-ngrams/raw/no`, { rawText });
   }
 }
