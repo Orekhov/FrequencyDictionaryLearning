@@ -1,6 +1,7 @@
 const express = require('express');
 const wordsMock = require('./mock-data/words');
 const data = require('./data');
+const ngramGenerator = require('./services/ngram-generator');
 
 var router = express.Router();
 
@@ -35,7 +36,9 @@ router.get('/ngrams/:lang/:type', async (req, res) => {
 
 router.post('/add-ngrams/raw/:lang/', async (req, res) => {
     const rawText = req.body.rawText;
-    res.status(201).send({ok:"ok"}).end();
+    const allNgrams = ngramGenerator.generateAllNgrams(rawText);
+    // load to the DB
+    res.status(201).send({ ok: 'ok' }).end();
 });
 
 router.get('/testadd', (req, res) => {

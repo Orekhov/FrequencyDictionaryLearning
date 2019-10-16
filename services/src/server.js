@@ -6,7 +6,7 @@ const auth = require('./auth');
 function startServer() {
     const apiBasePath = '/api';
     const server = express();
-    server.use(express.json());
+    server.use(apiBasePath, express.json({limit:'256kb'})); // TODO: make route specific
     server.use(apiBasePath, auth.authenticate);
     server.use(apiBasePath, router);
 
