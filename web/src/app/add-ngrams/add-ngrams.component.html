@@ -2,12 +2,17 @@
 <div class="rawTextInput">
   <form [formGroup]="rawTextInputForm" (ngSubmit)="onSubmit(rawTextInputForm.value)">
     <mat-form-field class="example-full-width">
+      <input matInput placeholder="Enter the name of your text source"
+             formControlName="sourceName"
+             required>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
       <textarea matInput
                 formControlName="rawText"
                 [placeholder]="rawTextInputPlaceholder"
                 rows="10"
                 required [minlength]="RAW_TEXT_MIN_LENGTH" [maxLength]="RAW_TEXT_MAX_LENGTH"
-                on-focusout="onFocusOut()"></textarea>
+                on-focusout="onRawTextFieldFocusOut()"></textarea>
       <mat-hint align="start">{{rawTextInputFormValidationError}}</mat-hint>
       <mat-hint align="end">{{rawTextInputForm.value.rawText.length}} / {{RAW_TEXT_MAX_LENGTH}}</mat-hint>
     </mat-form-field>

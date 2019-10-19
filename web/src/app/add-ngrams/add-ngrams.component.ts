@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgramService } from '../services/ngram.service';
+import { RawTextInput } from '../types/types';
 
-interface RawTextInput {
-  rawText: string;
-}
+
 
 @Component({
   selector: 'app-add-ngrams',
@@ -21,6 +20,7 @@ export class AddNgramsComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private ngramService: NgramService) {
     this.rawTextInputForm = this.formBuilder.group({
+      sourceName: '',
       rawText: ''
     });
   }
@@ -29,30 +29,35 @@ export class AddNgramsComponent implements OnInit {
   }
 
   onSubmit(data: RawTextInput) {
-    this.updateValidationError();
+    this.updateRawTextFieldValidationError();
     if (this.isValid(data)) {
-      this.ngramService.addRaw(data.rawText).subscribe(d => {
+      this.ngramService.addRaw(data).subscribe(d => {
         console.log(d);
       });
     }
   }
 
-  onFocusOut() {
-    this.updateValidationError();
+  onRawTextFieldFocusOut() {
+    this.updateRawTextFieldValidationError();
   }
 
-  private updateValidationError() {
-    this.rawTextInputFormValidationError = this.validate(this.rawTextInputForm.value);
+  private updateRawTextFieldValidationError() {
+    this.rawTextInputFormValidationError = this.validateTextInput(this.rawTextInputForm.value);
   }
 
   private isValid(data: RawTextInput): boolean {
-    return this.validate(data) === '';
+    return this.validateTextInput(data.rawText) === '' &&
+      this.validateSourceInfoInput(data.sourceName) === '';
   }
 
-  private validate(data: RawTextInput): string {
-    if (!data.rawText || !data.rawText.length || data.rawText.length < this.RAW_TEXT_MIN_LENGTH) {
+  private validateSourceInfoInput(sourceName: string) {
+    return sourceName && sourceName.length && sourceName.length > 0 ? '' : 'Source name is required';
+  }
+
+  private validateTextInput(rawText: string): string {
+    if (!rawText || !rawText.length || rawText.length < this.RAW_TEXT_MIN_LENGTH) {
       return `Min length is ${this.RAW_TEXT_MIN_LENGTH} characters`;
-    } else if (data.rawText.length > this.RAW_TEXT_MAX_LENGTH) {
+    } else if (rawText.length > this.RAW_TEXT_MAX_LENGTH) {
       return `Max length is ${this.RAW_TEXT_MAX_LENGTH} characters`;
     } else {
       return '';
