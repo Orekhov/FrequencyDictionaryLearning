@@ -1,8 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule} from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppMaterialModule } from './init/app-material.module';
@@ -12,15 +17,15 @@ import { WordListComponent } from './word-list/word-list.component';
 import { NgramViewComponent } from './ngram-view/ngram-view.component';
 import { StatsComponent } from './stats/stats.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { AuthService } from './services/auth.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginInfoComponent } from './login-info/login-info.component';
-import { TokenError } from '@angular/compiler/src/ml_parser/lexer';
 import { TokenInterceptor } from './services/token.interceptor';
 import { AddNgramsComponent } from './add-ngrams/add-ngrams.component';
+import { addRawReducer } from './state/add.raw.reducer';
+import { NGramsEffects } from './state/ngrams.effects';
+import { ngramListReducer } from './state/ngrams.reducer';
 
 @NgModule({
   declarations: [
@@ -43,7 +48,17 @@ import { AddNgramsComponent } from './add-ngrams/add-ngrams.component';
     FlexLayoutModule,
     AppMaterialModule,
     AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    StoreModule.forRoot({
+      addRaw: addRawReducer,
+      ngramlist: ngramListReducer
+    }),
+    StoreDevtoolsModule.instrument({
+      name: 'ngram dict devtools',
+      maxAge: 25,
+      logOnly: environment.production
+    }),
+    EffectsModule.forRoot([NGramsEffects])
   ],
   providers: [
     AuthService,
