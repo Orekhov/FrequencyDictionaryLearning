@@ -35,10 +35,17 @@ router.get('/ngrams/:lang/:type', async (req, res) => {
 });
 
 router.post('/add-ngrams/raw/:lang/', async (req, res) => {
-    const rawText = req.body.rawText;
+    const { rawText, sourceName } = req.body;
+    const { lang, type } = req.params;
     const allNgrams = ngramGenerator.generateAllNgrams(rawText);
-    // load to the DB
-    res.status(201).send({ ok: 'ok' }).end();
+    const uploadId = await data.dataAccess.startUploadingNgrams({
+        allNgrams,
+        sourceName,
+        type,
+        lang,
+        userId: req.authenticatedUser.email
+    });
+    res.status(200).send({ uploadId }).end();
 });
 
 router.get('/testadd', (req, res) => {

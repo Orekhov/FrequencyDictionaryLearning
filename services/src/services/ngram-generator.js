@@ -51,7 +51,15 @@ function generateAllNgrams(inputRawString) {
     const unigrams = generateUnigrams(allTokens);
     const bigrams = generateBigrams(allTokens);
     const trigrams = generateTrigrams(allTokens);
-    return { unigrams, bigrams, trigrams };
+    return {
+        unigrams,
+        bigrams, 
+        trigrams, 
+        unigramsCount: unigrams.size, 
+        bigramsCount: bigrams.size,
+        trigramsCount: trigrams.size,
+        charLength: inputRawString.length
+    };
 }
 
 module.exports = {
