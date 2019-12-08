@@ -4,3 +4,8 @@
 body {
   font-family: 'Roboto', sans-serif;
 }
+
+html,
+body {
+    overscroll-behavior-y: contain;
+}
