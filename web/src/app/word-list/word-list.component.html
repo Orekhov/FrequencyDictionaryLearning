@@ -1,27 +1,4 @@
-<mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Filters
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-
-    <div class='display-known'>
-      <label>Show:</label>
-      <mat-radio-group [(ngModel)]="displayKnown" (change)="onFiltersChanged()">
-        <mat-radio-button value="true">
-          Known words
-        </mat-radio-button>
-        <mat-radio-button value="false">
-          Unknown words
-        </mat-radio-button>
-      </mat-radio-group>
-    </div>
-
-  </mat-expansion-panel>
-</mat-accordion>
-
-
+<app-filters></app-filters>
 
 <table mat-table [dataSource]="ngrams" class="mat-elevation-z8">
 

@@ -26,6 +26,9 @@ import { AddNgramsComponent } from './add-ngrams/add-ngrams.component';
 import { addRawReducer } from './state/add.raw.reducer';
 import { NGramsEffects } from './state/ngrams.effects';
 import { ngramListReducer } from './state/ngrams.reducer';
+import { FiltersComponent } from './mydict/filters/filters.component';
+import { mydictFeatureKey } from './state/mydict/mydict.feature';
+import * as filtersReducer from './state/mydict/filters.reducer';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,8 @@ import { ngramListReducer } from './state/ngrams.reducer';
     PrivacyPolicyComponent,
     WelcomeComponent,
     LoginInfoComponent,
-    AddNgramsComponent
+    AddNgramsComponent,
+    FiltersComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +56,9 @@ import { ngramListReducer } from './state/ngrams.reducer';
     StoreModule.forRoot({
       addRaw: addRawReducer,
       ngramlist: ngramListReducer
+    }),
+    StoreModule.forFeature(mydictFeatureKey, {
+      filters: filtersReducer.reducer
     }),
     StoreDevtoolsModule.instrument({
       name: 'ngram dict devtools',

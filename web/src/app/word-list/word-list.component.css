@@ -1,15 +1,3 @@
-.display-known {
-  margin: 10px;
-}
-
-.display-known > * {
-  margin: 5px;
-}
-
-.display-known  mat-radio-button {
-  margin: 0 5px;
-}
-
 table {
     width: 100%;
 }

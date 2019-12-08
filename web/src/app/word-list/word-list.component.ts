@@ -1,10 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AppState } from '../state/app.state';
+import { takeWhile } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
+
+import { AppState } from '../state/app.state';
 import { NGramEntry } from '../types/types';
 import { ngramListSelector, ngramListErrorSelector } from '../state/ngrams.reducer';
 import { NgramsLoadAction } from '../state/ngrams.actions';
-import { takeWhile } from 'rxjs/operators';
+
+import { myDictFiltersSelector } from '../state/mydict/filters.selector';
 
 @Component({
   selector: 'app-word-list',
@@ -17,30 +20,19 @@ export class WordListComponent implements OnInit, OnDestroy {
   ngrams: NGramEntry[] = [];
   displayKnown = 'false';
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private appStateStore: Store<AppState>) { }
 
   ngOnInit() {
-    this.store.pipe(select(ngramListSelector), takeWhile(() => this.componentActive))
+    this.appStateStore.pipe(select(ngramListSelector), takeWhile(() => this.componentActive))
       .subscribe(nl => this.ngrams = nl);
-    this.store.pipe(select(ngramListErrorSelector), takeWhile(() => this.componentActive))
+    this.appStateStore.pipe(select(ngramListErrorSelector), takeWhile(() => this.componentActive))
       .subscribe(err => console.log(err));
-    this.dispatchReloadNgrams();
+    this.appStateStore.pipe(select(myDictFiltersSelector), takeWhile(() => this.componentActive))
+      .subscribe(f => this.appStateStore.dispatch(new NgramsLoadAction(f)));
   }
 
   ngOnDestroy() {
     this.componentActive = false;
-  }
-
-  onFiltersChanged() {
-    this.dispatchReloadNgrams();
-  }
-
-  private dispatchReloadNgrams() {
-    this.store.dispatch(new NgramsLoadAction({
-      known: this.displayKnown,
-      limit: 50,
-      type: 'unigrams'
-    }));
   }
 
 }
