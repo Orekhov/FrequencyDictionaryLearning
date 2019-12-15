@@ -9,6 +9,17 @@ export interface NGramEntry {
     totalCount: number;
 }
 
+export interface NGramDetailSource {
+  sourceNumber: number;
+  count: number;
+  name: string;
+  description: string;
+}
+
+export interface NGramDetailEntry extends NGramEntry {
+  counts: NGramDetailSource[];
+}
+
 export interface NGramFilters {
     type: string;
     known: string;

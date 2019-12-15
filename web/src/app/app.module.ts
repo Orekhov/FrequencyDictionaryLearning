@@ -29,6 +29,8 @@ import { ngramListReducer } from './state/ngrams.reducer';
 import { FiltersComponent } from './mydict/filters/filters.component';
 import { mydictFeatureKey } from './state/mydict/mydict.feature';
 import * as filtersReducer from './state/mydict/filters.reducer';
+import * as ngramReducer from './state/mydict/ngram.reducer';
+import { NGramDetailEffects } from './state/mydict/ngram.effects';
 
 @NgModule({
   declarations: [
@@ -58,14 +60,16 @@ import * as filtersReducer from './state/mydict/filters.reducer';
       ngramlist: ngramListReducer
     }),
     StoreModule.forFeature(mydictFeatureKey, {
-      filters: filtersReducer.reducer
+      filters: filtersReducer.reducer,
+      ngram: ngramReducer.reducer
     }),
     StoreDevtoolsModule.instrument({
       name: 'ngram dict devtools',
       maxAge: 25,
       logOnly: environment.production
     }),
-    EffectsModule.forRoot([NGramsEffects])
+    EffectsModule.forRoot([NGramsEffects]),
+    EffectsModule.forFeature([NGramDetailEffects])
   ],
   providers: [
     AuthService,
