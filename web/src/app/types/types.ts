@@ -4,6 +4,7 @@ export interface RawTextInput {
 }
 
 export interface NGramEntry {
+    id: string;
     item: string;
     known: boolean;
     totalCount: number;

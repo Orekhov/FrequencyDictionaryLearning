@@ -61,7 +61,7 @@ import { NGramDetailEffects } from './state/mydict/ngram.effects';
     }),
     StoreModule.forFeature(mydictFeatureKey, {
       filters: filtersReducer.reducer,
-      ngram: ngramReducer.reducer
+      ngramDetail: ngramReducer.reducer
     }),
     StoreDevtoolsModule.instrument({
       name: 'ngram dict devtools',

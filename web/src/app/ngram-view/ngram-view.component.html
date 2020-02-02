@@ -8,7 +8,16 @@
             NGram: {{ngram}}
         </mat-toolbar>
 
-        Detailed view for <strong>{{ngram}}</strong> will be available soon!
+        <div *ngIf="!ngramEntry" style="width: 100%; height: 100%;">
+            <mat-spinner style="margin: auto; top: 35%"></mat-spinner>
+        </div>
+
+        <div *ngIf="ngramEntry">
+            Detail view for <strong>{{ngramEntry.item}}</strong>
+
+            Total count in all sources: {{ngramEntry.totalCount}}
+        </div>
+
 
     </mat-sidenav-content>
 </mat-sidenav-container>

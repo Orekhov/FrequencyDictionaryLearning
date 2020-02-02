@@ -33,7 +33,7 @@ async function getNgrams(params) {
 
     let unigrams = [];
     snapshot.forEach(doc => {
-        unigrams.push(convertToReturnType(doc.data()));
+        unigrams.push(convertToReturnType(doc.id, doc.data()));
     });
     return unigrams;
 }
@@ -220,8 +220,9 @@ function dateNow() {
     return new Date(Date.now());
 }
 
-function convertToReturnType(dbDoc) {
+function convertToReturnType(id, dbDoc) {
     return {
+        id: id,
         item: dbDoc.item,
         totalCount: dbDoc.totalCount,
         known: dbDoc.known,
