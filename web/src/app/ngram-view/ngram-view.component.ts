@@ -22,6 +22,7 @@ export class NgramViewComponent implements OnInit, OnDestroy {
   ngramId: string;
   ngramType: string;
   ngramEntry: NGramDetailEntry;
+  displayedColumns: string[] = ['source', 'count'];
   componentActive = true;
 
   ngOnInit() {
