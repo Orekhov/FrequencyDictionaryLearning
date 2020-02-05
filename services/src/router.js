@@ -34,6 +34,23 @@ router.get('/ngrams/:lang/:type', async (req, res) => {
     }
 });
 
+router.get('/ngrams/:lang/:type/:id', async (req, res) => {
+    const { type, id } = req.params;
+    try {
+        const ngramDetail = await data.dataAccess.getNgramDetail({
+            userId: req.authenticatedUser.email,
+            nGramType: type,
+            id: id
+        });
+        res.status(200)
+            .json(ngramDetail)
+            .end();
+    } catch (error) {
+        console.warn(error);
+        res.status(400).end();
+    }
+});
+
 router.post('/add-ngrams/raw/:lang/', async (req, res) => {
     const { rawText, sourceName } = req.body;
     const { lang, type } = req.params;
