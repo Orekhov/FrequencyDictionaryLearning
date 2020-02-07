@@ -6,6 +6,7 @@ export interface MyDictFiltersState extends NGramFilters { }
 export interface NGramDetailState {
   ngram: NGramDetailEntry;
   error: any;
+  isSettingKnownState: boolean;
 }
 
 export interface MyDictFeatureState {

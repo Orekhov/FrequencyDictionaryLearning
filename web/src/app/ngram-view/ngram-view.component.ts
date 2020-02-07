@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../state/app.state';
 import * as ngramActions from '../state/mydict/ngram.actions';
-import { nGramDetailSelector, nGramDetailErrorSelector } from '../state/mydict/ngram.selector';
+import { nGramDetailSelector, nGramDetailErrorSelector, nGramChangingKnownState } from '../state/mydict/ngram.selector';
 import { NGramDetailEntry } from '../types/types';
 import { takeWhile } from 'rxjs/operators';
 
@@ -23,6 +23,7 @@ export class NgramViewComponent implements OnInit, OnDestroy {
   ngramType: string;
   ngramEntry: NGramDetailEntry;
   displayedColumns: string[] = ['source', 'count'];
+  changingKnownState = false;
   componentActive = true;
 
   ngOnInit() {
@@ -34,6 +35,8 @@ export class NgramViewComponent implements OnInit, OnDestroy {
       .subscribe(n => this.ngramEntry = n);
     this.appStateStore.pipe(select(nGramDetailErrorSelector), takeWhile(() => this.componentActive))
       .subscribe(e => console.log(e));
+    this.appStateStore.pipe(select(nGramChangingKnownState), takeWhile(() => this.componentActive))
+      .subscribe(c => this.changingKnownState = c);
   }
 
   ngOnDestroy(): void {

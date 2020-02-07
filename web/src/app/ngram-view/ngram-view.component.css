@@ -12,9 +12,17 @@
 }
 
 .ngramContainer > * {
-  margin: 5px;
+  margin: 15px 5px;
 }
 
 table {
   min-width: 360px;
+}
+
+.knownRow {
+  width: 400px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
 }

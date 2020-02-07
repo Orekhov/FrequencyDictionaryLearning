@@ -17,13 +17,19 @@
                 Detail view for ngram: <strong>{{ngramEntry.item}}</strong>
             </div>
 
-            <div *ngIf="ngramEntry.known">
-              This ngram is known. 
-              <button mat-stroked-button color="primary" (click)="markAsUnknown()">Mark as unknown</button>
+            <div *ngIf="ngramEntry.known" class="knownRow">
+              <div>
+                <mat-icon style="color:darkgreen">check_circle</mat-icon>
+              </div>
+              <div>This ngram is known.</div>
+              <button mat-stroked-button color="primary" (click)="markAsUnknown()" [disabled]="changingKnownState">Mark as unknown</button>
             </div>
-            <div *ngIf="!ngramEntry.known">
-              This ngram is unknown. 
-              <button mat-stroked-button color="primary" (click)="markAsKnown()">Mark as known</button>
+            <div *ngIf="!ngramEntry.known" class="knownRow">
+              <div>
+                <mat-icon style="color:darkgrey">help</mat-icon>
+              </div>
+              <div>This ngram is unknown.</div>
+              <button mat-stroked-button color="primary" (click)="markAsKnown()" [disabled]="changingKnownState">Mark as known</button>
             </div>
 
             <div>

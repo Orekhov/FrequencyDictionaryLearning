@@ -14,10 +14,20 @@ export const nGramDetailSelector = createSelector(
 
 export const nGramDetailErrorSelector = createSelector(
     selectMyDictFeature,
-    s => { 
-        if(s.ngramDetail) {
+    s => {
+        if (s.ngramDetail) {
             return s.ngramDetail.error;
         }
         return nGramDetailInitialState.error;
+    }
+);
+
+export const nGramChangingKnownState = createSelector(
+    selectMyDictFeature,
+    s => {
+        if (s.ngramDetail) {
+            return s.ngramDetail.isSettingKnownState;
+        }
+        return nGramDetailInitialState.isSettingKnownState;
     }
 );

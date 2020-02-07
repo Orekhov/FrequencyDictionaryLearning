@@ -8,5 +8,6 @@ export const nGramDetailInitialState: NGramDetailState = {
         known: null,
         totalCount: null
     },
-    error: null
+    error: null,
+    isSettingKnownState: false
 };
