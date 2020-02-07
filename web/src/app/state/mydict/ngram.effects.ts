@@ -18,8 +18,18 @@ export class NGramDetailEffects {
     ofType(ngramActions.loadNGramAction),
     mergeMap((action) => this.ngramsService.getNgramDetail(action.nGramType, action.id)
       .pipe(
-        map((ngramDetail: NGramDetailEntry) => ngramActions.loadSuccessAction({ngramDetail})),
+        map((ngramDetail: NGramDetailEntry) => ngramActions.loadSuccessAction({ ngramDetail })),
         catchError(err => of(ngramActions.loadFailureAction(err)))
+      ))
+  );
+
+  @Effect()
+  changeKnownState = this.actions$.pipe(
+    ofType(ngramActions.changeKnownState),
+    mergeMap((action) => this.ngramsService.updateNgramKnownState(action.nGramType ,action.id, action.known)
+      .pipe(
+        map(() => ngramActions.changeKnownStateSuccess()),
+        catchError(err => of(ngramActions.changeKnownStateFailure()))
       ))
   );
 }

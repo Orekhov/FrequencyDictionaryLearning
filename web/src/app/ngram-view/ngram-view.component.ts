@@ -41,4 +41,20 @@ export class NgramViewComponent implements OnInit, OnDestroy {
     this.appStateStore.dispatch(ngramActions.unloadNGramAction());
   }
 
+  markAsKnown(): void {
+    this.setKnownState(true);
+  }
+
+  markAsUnknown(): void {
+    this.setKnownState(false);
+  }
+
+  private setKnownState(known: boolean): void {
+    this.appStateStore.dispatch(ngramActions.changeKnownState({
+      nGramType: this.ngramType,
+      id: this.ngramId,
+      known
+    }));
+  }
+
 }

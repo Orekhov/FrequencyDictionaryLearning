@@ -19,6 +19,10 @@ export class NgramService {
     return this.httpClient.get<NGramDetailEntry>(`/api/ngrams/no/${ngramType}/${id}`);
   }
 
+  public updateNgramKnownState(ngramType: string, id: string, known: boolean): Observable<any> {
+    return this.httpClient.put(`api/ngrams/no/${ngramType}/${id}/known`, { known });
+  }
+
   public addRaw(rawText: RawTextInput): Observable<any> {
     return this.httpClient.post<RawTextInput>(`/api/add-ngrams/raw/no`, rawText);
   }

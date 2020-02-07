@@ -14,12 +14,17 @@
 
         <div *ngIf="ngramEntry" class="ngramContainer">
             <div>
-                Detail view for <strong>{{ngramEntry.item}}</strong>
+                Detail view for ngram: <strong>{{ngramEntry.item}}</strong>
             </div>
 
-            <mat-slide-toggle>
-                Known
-            </mat-slide-toggle>
+            <div *ngIf="ngramEntry.known">
+              This ngram is known. 
+              <button mat-stroked-button color="primary" (click)="markAsUnknown()">Mark as unknown</button>
+            </div>
+            <div *ngIf="!ngramEntry.known">
+              This ngram is unknown. 
+              <button mat-stroked-button color="primary" (click)="markAsKnown()">Mark as known</button>
+            </div>
 
             <div>
                 Total count in all sources: <strong>{{ngramEntry.totalCount}}</strong>

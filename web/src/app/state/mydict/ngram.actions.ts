@@ -19,3 +19,16 @@ export const loadFailureAction = createAction(
 export const unloadNGramAction = createAction(
   '[Ngram] Unload'
 );
+
+export const changeKnownState = createAction(
+  '[Ngram] Change known state',
+  props<{ known: boolean; id: string; nGramType: string }>()
+);
+
+export const changeKnownStateSuccess = createAction(
+  '[Ngram] Change known state success'
+);
+
+export const changeKnownStateFailure = createAction(
+  '[Ngram] Change known state failure'
+);
