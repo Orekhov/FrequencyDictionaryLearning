@@ -6,7 +6,8 @@ import { nGramDetailInitialState } from './ngram.model';
 const ngramDetailReducer = createReducer(
   nGramDetailInitialState,
   on(NgramActions.loadSuccessAction, (state, action) => ({ ...state, ngram: { ...action.ngramDetail } })),
-  on(NgramActions.loadFailureAction, (state, action) => ({ ...state, error: action.error }))
+  on(NgramActions.loadFailureAction, (state, action) => ({ ...state, error: action.error })),
+  on(NgramActions.unloadNGramAction, (state, action) => ({ ...state, ...nGramDetailInitialState }))
 );
 
 export function reducer(state: NGramDetailState | undefined, action: Action) {

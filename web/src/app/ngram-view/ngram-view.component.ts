@@ -38,6 +38,7 @@ export class NgramViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.componentActive = false;
+    this.appStateStore.dispatch(ngramActions.unloadNGramAction());
   }
 
 }

@@ -15,3 +15,7 @@ export const loadFailureAction = createAction(
   '[Ngram] Load Failure',
   props<{ error: any }>()
 );
+
+export const unloadNGramAction = createAction(
+  '[Ngram] Unload'
+);
