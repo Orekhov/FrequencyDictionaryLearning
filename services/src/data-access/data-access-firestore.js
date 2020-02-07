@@ -264,21 +264,13 @@ function dateNow() {
 }
 
 function convertToReturnType(id, dbDoc) {
-    const retVal = {
+    return {
         id: id,
         item: dbDoc.item,
         totalCount: dbDoc.totalCount,
         known: dbDoc.known,
-        updated: dbDoc.updated.toDate(),
-        counts: []
+        updated: dbDoc.updated.toDate()
     };
-    if (dbDoc.counts) {
-        dbDoc.counts.forEach(c => retVal.counts.push({
-            source: c.s,
-            count: c.c
-        }));
-    }
-    return retVal;
 }
 
 module.exports = {
