@@ -53,7 +53,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'ngram/:ngram',
+    path: 'ngram/:ngramType/:ngramId',
     component: NgramViewComponent
   },
   {

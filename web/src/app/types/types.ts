@@ -4,9 +4,21 @@ export interface RawTextInput {
 }
 
 export interface NGramEntry {
+    id: string;
     item: string;
     known: boolean;
     totalCount: number;
+}
+
+export interface NGramDetailSource {
+  sourceNumber: number;
+  count: number;
+  name: string;
+  description: string;
+}
+
+export interface NGramDetailEntry extends NGramEntry {
+  counts: NGramDetailSource[];
 }
 
 export interface NGramFilters {

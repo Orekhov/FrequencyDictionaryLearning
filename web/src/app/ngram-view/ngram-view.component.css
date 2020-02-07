@@ -4,5 +4,17 @@
     bottom: 0;
     left: 0;
     right: 0;
-  }
-  
+}
+
+.ngramContainer {
+  margin: 15px;
+  display: block;
+}
+
+.ngramContainer > * {
+  margin: 5px;
+}
+
+table {
+  min-width: 360px;
+}

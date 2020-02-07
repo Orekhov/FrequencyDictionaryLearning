@@ -1,8 +1,9 @@
 export interface NGram {
+    id: string;
     item: string,
     count: number,
     known: boolean;
-    updated: Date
+    updated: Date;
 }
 
 export interface UniGram extends NGram {

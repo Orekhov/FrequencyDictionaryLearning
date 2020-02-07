@@ -33,9 +33,52 @@ async function getNgrams(params) {
 
     let unigrams = [];
     snapshot.forEach(doc => {
-        unigrams.push(convertToReturnType(doc.data()));
+        unigrams.push(convertToReturnType(doc.id, doc.data()));
     });
     return unigrams;
+}
+
+async function getNgramDetail(params) {
+    const { userId, nGramType, id } = params;
+    const collectionName = getCollectionName(nGramType);
+    const doc = await db.doc(`${collectionName}/${id}`).get();
+    const docData = doc.data();
+    if(docData.user !== userId) {
+        throw "Not authorized to access";
+    }
+    const valueToReturn = {
+        id: id,
+        item: docData.item,
+        totalCount: docData.totalCount,
+        known: docData.known,
+        updated: docData.updated.toDate(),
+        counts: []
+    };
+    await getSourceDescriptions(userId, docData.counts, valueToReturn);
+    return valueToReturn;
+}
+
+async function getSourceDescriptions(userId, docDataCounts, valueToReturn) {
+    const promises = docDataCounts.map(async count => {
+        const description = await getSourceDescription(userId, count.s);
+        valueToReturn.counts.push({
+            source: count.s,
+            count: count.c,
+            sourceDescription: description
+        });
+      })
+      await Promise.all(promises)
+}
+
+async function getSourceDescription(userId, sourceNumber) {
+    const collection = db.collection('sources');
+    let snapshot = await collection
+        .where('user', '==', userId)
+        .where('sourceNumber', '==', sourceNumber)
+        .limit(1)
+        .get();
+    const data = snapshot.docs[0].data();
+    return data.description;
 }
 
 async function startUploadingNgrams(params) {
@@ -220,19 +263,20 @@ function dateNow() {
     return new Date(Date.now());
 }
 
-function convertToReturnType(dbDoc) {
+function convertToReturnType(id, dbDoc) {
     return {
+        id: id,
         item: dbDoc.item,
         totalCount: dbDoc.totalCount,
         known: dbDoc.known,
-        updated: dbDoc.updated.toDate(),
-        counts: dbDoc.counts
-    }
+        updated: dbDoc.updated.toDate()
+    };
 }
 
 module.exports = {
     init: init,
     insertUnigram: insertUnigram,
     getNgrams: getNgrams,
+    getNgramDetail: getNgramDetail,
     startUploadingNgrams: startUploadingNgrams,
 }
