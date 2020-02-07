@@ -51,6 +51,24 @@ router.get('/ngrams/:lang/:type/:id', async (req, res) => {
     }
 });
 
+router.put('/ngrams/:lang/:type/:id/known', async (req, res) => {
+    const { type, id } = req.params;
+    const body = req.body;
+    try {
+        await data.dataAccess.setNgramKnownState({
+            userId: req.authenticatedUser.email,
+            nGramType: type,
+            id: id,
+            known: body.known
+        });
+        res.status(204)
+            .end();
+    } catch (error) {
+        console.warn(error);
+        res.status(400).end();
+    }
+});
+
 router.post('/add-ngrams/raw/:lang/', async (req, res) => {
     const { rawText, sourceName } = req.body;
     const { lang, type } = req.params;

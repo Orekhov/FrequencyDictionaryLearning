@@ -43,9 +43,7 @@ async function getNgramDetail(params) {
     const collectionName = getCollectionName(nGramType);
     const doc = await db.doc(`${collectionName}/${id}`).get();
     const docData = doc.data();
-    if(docData.user !== userId) {
-        throw "Not authorized to access";
-    }
+    validateUserIsAuthorized(docData, userId);
     const valueToReturn = {
         id: id,
         item: docData.item,
@@ -58,6 +56,16 @@ async function getNgramDetail(params) {
     return valueToReturn;
 }
 
+async function setNgramKnownState(params) {
+    const { userId, nGramType, id, known } = params;
+    const collectionName = getCollectionName(nGramType);
+    const docRef = db.doc(`${collectionName}/${id}`);
+    const doc = await docRef.get();
+    const docData = doc.data();
+    validateUserIsAuthorized(docData, userId);
+    await docRef.update({ known });
+}
+
 async function getSourceDescriptions(userId, docDataCounts, valueToReturn) {
     const promises = docDataCounts.map(async count => {
         const description = await getSourceDescription(userId, count.s);
@@ -66,8 +74,8 @@ async function getSourceDescriptions(userId, docDataCounts, valueToReturn) {
             count: count.c,
             sourceDescription: description
         });
-      })
-      await Promise.all(promises)
+    })
+    await Promise.all(promises)
 }
 
 async function getSourceDescription(userId, sourceNumber) {
@@ -273,10 +281,17 @@ function convertToReturnType(id, dbDoc) {
     };
 }
 
+function validateUserIsAuthorized(docData, userId) {
+    if (docData.user !== userId) {
+        throw "Not authorized to access";
+    }
+}
+
 module.exports = {
     init: init,
     insertUnigram: insertUnigram,
     getNgrams: getNgrams,
     getNgramDetail: getNgramDetail,
     startUploadingNgrams: startUploadingNgrams,
+    setNgramKnownState: setNgramKnownState
 }
