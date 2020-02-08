@@ -19,6 +19,7 @@ export interface NGramDetailSource {
 
 export interface NGramDetailEntry extends NGramEntry {
   counts: NGramDetailSource[];
+  translations: string[];
 }
 
 export interface NGramFilters {

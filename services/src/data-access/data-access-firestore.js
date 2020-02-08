@@ -2,6 +2,7 @@ const Firestore = require('@google-cloud/firestore');
 // Docs at https://googleapis.dev/nodejs/firestore/latest/CollectionReference.html
 const fs = require('fs-extra');
 const path = require('path');
+const translator = require('./translator');
 
 const serviceAccountKeyJsonPath = "serviceAccountKey.json"
 let db;
@@ -52,7 +53,10 @@ async function getNgramDetail(params) {
         updated: docData.updated.toDate(),
         counts: []
     };
-    await getSourceDescriptions(userId, docData.counts, valueToReturn);
+    await Promise.all([
+        getSourceDescriptions(userId, docData.counts, valueToReturn),
+        getTranslations(valueToReturn)
+    ]);
     return valueToReturn;
 }
 
@@ -76,6 +80,10 @@ async function getSourceDescriptions(userId, docDataCounts, valueToReturn) {
         });
     })
     await Promise.all(promises)
+}
+
+async function getTranslations(valueToReturn) {
+    valueToReturn.translations = await translator.translateText(valueToReturn.item);
 }
 
 async function getSourceDescription(userId, sourceNumber) {
