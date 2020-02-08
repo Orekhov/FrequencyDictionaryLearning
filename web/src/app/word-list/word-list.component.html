@@ -1,6 +1,6 @@
 <app-filters></app-filters>
 
-<table mat-table [dataSource]="ngrams" class="mat-elevation-z8">
+<table mat-table [dataSource]="ngramsVm" class="mat-elevation-z8">
 
   <ng-container matColumnDef="ngram">
     <th mat-header-cell *matHeaderCellDef> NGram </th>
@@ -9,10 +9,16 @@
     </td>
   </ng-container>
 
-  <ng-container matColumnDef="addToKnown">
+  <ng-container matColumnDef="changeKnownState">
     <th mat-header-cell *matHeaderCellDef> </th>
     <td mat-cell *matCellDef="let element">
-      <button mat-button> Add to known</button> </td>
+      <div *ngIf="!element.known">
+        <button mat-button (click)="changeKnownState(element)" [disabled]="element.toggling"> Add to known</button>
+      </div>
+      <div *ngIf="element.known">
+        <button mat-button (click)="changeKnownState(element)" [disabled]="element.toggling"> Add to unknown</button>
+      </div>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="count">
