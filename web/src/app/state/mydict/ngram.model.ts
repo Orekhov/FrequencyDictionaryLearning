@@ -6,7 +6,8 @@ export const nGramDetailInitialState: NGramDetailState = {
         counts: null,
         item: null,
         known: null,
-        totalCount: null
+        totalCount: null,
+        translations: null
     },
     error: null,
     isSettingKnownState: false
