@@ -10,8 +10,8 @@ const initialState: MyDictFiltersState = {
 
 const mydictFiltersReducer = createReducer(
     initialState,
-    on(FiltersActions.updateKnownAction, (state, action) => ({ ...state, known: action.known })
-    ),
+    on(FiltersActions.updateKnownAction, (state, action) => ({ ...state, known: action.known })),
+    on(FiltersActions.updateTypeAction, (state, action) => ({ ...state, type: action.nGramType}))
 );
 
 export function reducer(state: MyDictFiltersState | undefined, action: Action) {

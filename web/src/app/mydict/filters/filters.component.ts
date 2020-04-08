@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { MyDictFiltersState } from '../../state/mydict/mydict.states';
 import { myDictFiltersSelector } from '../../state/mydict/filters.selector';
-import { updateKnownAction } from '../../state/mydict/filters.actions';
+import { updateKnownAction, updateTypeAction } from '../../state/mydict/filters.actions';
 import { NGramFilters } from '../../types/types';
 
 @Component({
@@ -22,6 +22,10 @@ export class FiltersComponent implements OnInit {
 
   onKnownChanged(e) {
     this.store.dispatch(updateKnownAction({ known: e.value }));
+  }
+
+  onNgramTypeChanged(e) {
+    this.store.dispatch(updateTypeAction({ nGramType: e.value }));
   }
 
 }

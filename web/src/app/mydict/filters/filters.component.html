@@ -6,7 +6,7 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
   
-      <div class='display-known'>
+      <div class='filter-row'>
         <label>Show:</label>
         <mat-radio-group [value]="filters.known" (change)="onKnownChanged($event)">
           <mat-radio-button value="true">
@@ -14,6 +14,20 @@
           </mat-radio-button>
           <mat-radio-button value="false">
             unknown
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class='filter-row'>
+        <label>Ngram type:</label>
+        <mat-radio-group [value]="filters.type" (change)="onNgramTypeChanged($event)">
+          <mat-radio-button value="unigrams">
+            unigram
+          </mat-radio-button>
+          <mat-radio-button value="bigrams">
+            bigram
+          </mat-radio-button>
+          <mat-radio-button value="trigrams">
+            trigram
           </mat-radio-button>
         </mat-radio-group>
       </div>

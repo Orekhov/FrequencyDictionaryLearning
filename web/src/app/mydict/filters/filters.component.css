@@ -1,7 +1,7 @@
-.display-known > * {
+.filter-row > * {
     margin: 5px;
 }
   
-.display-known  mat-radio-button {
+.filter-row  mat-radio-button {
     margin: 0 5px;
 }
