@@ -83,7 +83,16 @@ router.put('/ngrams/:lang/:type/:id/known', async (req, res) => {
 router.post('/add-ngrams/raw/:lang/', async (req, res) => {
     const { rawText, sourceName } = req.body;
     const { lang, type } = req.params;
+    const rawTextLength = rawText.length;
+    if(rawTextLength > 200000) {
+        res.status(400).send('Text should be less than 200000 characters').end();
+        return;
+    }
     const allNgrams = ngramGenerator.generateAllNgrams(rawText);
+    if(allNgrams.totalCount > 10000) {
+        res.status(500).send('Error: too many ngrams was generated').end();
+        return;
+    }
     const uploadId = await data.dataAccess.startUploadingNgrams({
         allNgrams,
         sourceName,
