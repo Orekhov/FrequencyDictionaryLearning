@@ -1,15 +1,12 @@
-
-/*
-Testing string:
-Mr. Smith bought cheapsite.com for 1.5 million dollars, i.e. he paid a lot for it. Did he mind? Adam Jones Jr. thinks he didn't. In any case, this isn't true... Well, with a probability of .9 it isn't. Mr. Smith bought cheapsite.com for 1.5 million dollars, i.e. he paid a lot for it. Did he mind? Adam Jones Jr. thinks he didn't. In any case, this isn't true... Well, with a probability of .9 it isn't. Mr. Smith bought cheapsite.com for 1.5 million dollars, i.e. he paid a lot for it. Did he mind? Adam Jones Jr. thinks he didn't.
-*/
 function splitIntoSentences(inputString) {
-    const allSentences = inputString.split(/(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s/);
-    return allSentences.filter(t => {
-        return t !== "";
+    const allSplits = inputString.split(/(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s|\n+\s*/);
+    const trimmedSplits = allSplits.map(split => split.trim());
+    const allSentences =  trimmedSplits.filter(trimmedSplit => {
+        return trimmedSplit !== "";
     }).map(t => {
         return t.toLowerCase();
-    })
+    });
+    return allSentences;
 }
 
 /* Han er fra Sør-Amerika.Nord- og Sør-Trøndelag og Vest- og Aust-Agder er fire av Norges nitten fylker. Den ene mynten var en 10-øring. I årets kommunevalg fikk Venstre et valgresultat på 3,9 prosent. Jeg gjorde ingenting med saken – og det burde det ikke være så vanskelig å forstå. Jeg er 27 år gammel. Hun løp ned gang- og sykkelveien. Han skal holde 17. mai-talen.

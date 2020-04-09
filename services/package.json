@@ -4,7 +4,8 @@
   "description": "Frequency Dictionary Learning Services",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js -d firestore"
+    "start": "node main.js -d firestore",
+    "test": "mocha"
   },
   "author": "Artemy Orekhov",
   "engines": {
@@ -18,5 +19,8 @@
     "fs-extra": "^9.0.0",
     "google-auth-library": "^6.0.0",
     "mongodb": "^3.3.2"
+  },
+  "devDependencies": {
+    "mocha": "^7.1.1"
   }
 }
