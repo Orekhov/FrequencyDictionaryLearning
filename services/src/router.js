@@ -9,6 +9,17 @@ router.get('/test', (req, res) => {
     res.status(200).send('Services are bootstrapped!').end();
 });
 
+router.get('/test-bg-run', async (req, res) => {
+    const { s } = req.query;
+    sN = parseInt(s);
+    if (Number.isInteger(sN)) {
+        testBackgroundJob(s);
+        res.status(200).send('BG job started').end();
+    } else {
+        res.status(400).end();
+    }
+});
+
 router.get('/ngrams/:lang/:type', async (req, res) => {
     const { limit, known } = req.query;
     const { lang, type } = req.params;
@@ -87,5 +98,23 @@ router.get('/testadd', (req, res) => {
     data.dataAccess.insertUnigram({ ngram: "test", known: true, count: 42424, updated: new Date(Date.now()) });
     res.status(200).send('Added!').end();
 });
+
+async function testBackgroundJob (seconds) {
+    try {
+        console.log('BG job started');
+        const ms = seconds * 1000;
+        for (let i = 0; i < 25; i++) {
+            await delay(ms);
+            console.log(`After ${seconds*i}s sleep`);
+        }
+        console.log('BG job finished');
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 module.exports = router;
