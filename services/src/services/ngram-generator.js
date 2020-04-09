@@ -54,7 +54,7 @@ function generateAllNgrams(inputRawString) {
     const bigrams = generateBigrams(allTokens);
     const trigrams = generateTrigrams(allTokens);
 
-    const frequentBigrams = filterFrequent(bigrams, 3);
+    const frequentBigrams = filterFrequent(bigrams, 2);
     const frequentTrigrams = filterFrequent(trigrams, 2);
 
     const orderedUnigrams = getOrdered(unigrams);
