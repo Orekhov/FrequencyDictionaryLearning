@@ -20,15 +20,17 @@ function generateNgrams(allTokens, n) {
     const cleanupNgram = ngram => ngram.endsWith(',') ? ngram.slice(0, -1) : ngram;
     const ngramsMap = new Map();
     allTokens.forEach(tokensForASentence => {
-        for (let i = 0; i <= tokensForASentence.length - n; i++) {
-            const indexStart = tokensForASentence[i].index;
-            const indexEnd = tokensForASentence[i + n - 1].index + tokensForASentence[i + n - 1][0].length;
-            const ngramRaw = tokensForASentence[0].input.substring(indexStart, indexEnd);
-            const ngram = cleanupNgram(ngramRaw);
-            if (ngramsMap.has(ngram)) {
-                ngramsMap.set(ngram, ngramsMap.get(ngram) + 1);
-            } else {
-                ngramsMap.set(ngram, 1);
+        if (tokensForASentence.length >= n) {
+            for (let i = 0; i <= tokensForASentence.length - n; i++) {
+                const indexStart = tokensForASentence[i].index;
+                const indexEnd = tokensForASentence[i + n - 1].index + tokensForASentence[i + n - 1][0].length;
+                const ngramRaw = tokensForASentence[0].input.substring(indexStart, indexEnd);
+                const ngram = cleanupNgram(ngramRaw);
+                if (ngramsMap.has(ngram)) {
+                    ngramsMap.set(ngram, ngramsMap.get(ngram) + 1);
+                } else {
+                    ngramsMap.set(ngram, 1);
+                }
             }
         }
     });
@@ -51,15 +53,24 @@ function generateAllNgrams(inputRawString) {
     const unigrams = generateUnigrams(allTokens);
     const bigrams = generateBigrams(allTokens);
     const trigrams = generateTrigrams(allTokens);
+
+    const orderedUnigrams = getOrdered(unigrams);
+    const orderedBigrams = getOrdered(bigrams);
+    const orderedTrigrams = getOrdered(trigrams);
+
     return {
-        unigrams,
-        bigrams, 
-        trigrams, 
-        unigramsCount: unigrams.size, 
+        unigrams: orderedUnigrams,
+        bigrams: orderedBigrams,
+        trigrams: orderedTrigrams,
+        unigramsCount: unigrams.size,
         bigramsCount: bigrams.size,
         trigramsCount: trigrams.size,
         charLength: inputRawString.length
     };
+}
+
+function getOrdered(map) {
+    return new Map([...map.entries()].sort((a, b) =>  b[1] - a[1]));
 }
 
 module.exports = {
