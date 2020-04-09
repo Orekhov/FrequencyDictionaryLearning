@@ -201,31 +201,28 @@ async function uploadNGrams(params) {
     const collectionName = getCollectionName(nGramType);
     const collectionRef = db.collection(collectionName);
     let uploadedCount = 0;
-    const uploadPromises = [];
     for (var [key, value] of nGrams) {
         try {
-            const uploadPromise = uploadNGram({
+            // TODO: this is super slow. FIX
+            await uploadNGram({
                 item: key,
                 count: value,
                 userId,
                 language,
                 sourceNumber,
                 collectionRef
-            }).then(() => {
-                uploadedCount += 1;
-                if ((alreadyUploadedCount + uploadedCount) % 20 === 0) {
-                    const uploaded = alreadyUploadedCount + uploadedCount;
-                    updateUploadInfo({ uploadInfoRef, uploaded }); // no need to await
-                }
             });
-            uploadPromises.push(uploadPromise);
+            uploadedCount += 1;
+            if ((alreadyUploadedCount + uploadedCount) % 100 === 0) {
+                const uploaded = alreadyUploadedCount + uploadedCount;
+                updateUploadInfo({ uploadInfoRef, uploaded }); // no need to await
+            }
+
         } catch (error) {
             console.log(error);
         }
     }
-    await Promise.all(uploadPromises);
     return uploadedCount;
-
 }
 
 async function uploadNGram(params) {
