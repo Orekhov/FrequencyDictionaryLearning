@@ -11,14 +11,19 @@ describe('NgramGenerator', function () {
                 const actualUnigrams = result.unigrams;
                 const expectedUnigrams = testCase.expectedUnigrams;
                 assert.deepStrictEqual(actualUnigrams, expectedUnigrams);
+                assert.equal(result.unigramsCount, testCase.expectedUnigramsCount);
 
                 const actualBigrams = result.bigrams;
                 const expectedBigrams = testCase.expectedBigrams;
                 assert.deepStrictEqual(actualBigrams, expectedBigrams);
+                assert.equal(result.bigramsCount, testCase.expectedBigramsCount);
 
                 const actualTrigrams = result.trigrams;
                 const expectedTrigrams = testCase.expectedTrigrams;
                 assert.deepStrictEqual(actualTrigrams, expectedTrigrams);
+                assert.equal(result.trigramsCount, testCase.expectedTrigramsCount);
+
+                assert.equal(result.totalCount, testCase.expectedTotalCount);
             });
         });
     });

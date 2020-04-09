@@ -54,19 +54,27 @@ function generateAllNgrams(inputRawString) {
     const bigrams = generateBigrams(allTokens);
     const trigrams = generateTrigrams(allTokens);
 
+    const frequentBigrams = filterFrequent(bigrams, 3);
+    const frequentTrigrams = filterFrequent(trigrams, 2);
+
     const orderedUnigrams = getOrdered(unigrams);
-    const orderedBigrams = getOrdered(bigrams);
-    const orderedTrigrams = getOrdered(trigrams);
+    const orderedBigrams = getOrdered(frequentBigrams);
+    const orderedTrigrams = getOrdered(frequentTrigrams);
 
     return {
         unigrams: orderedUnigrams,
         bigrams: orderedBigrams,
         trigrams: orderedTrigrams,
-        unigramsCount: unigrams.size,
-        bigramsCount: bigrams.size,
-        trigramsCount: trigrams.size,
+        unigramsCount: orderedUnigrams.size,
+        bigramsCount: orderedBigrams.size,
+        trigramsCount: orderedTrigrams.size,
+        totalCount: orderedUnigrams.size + orderedBigrams.size + orderedTrigrams.size,
         charLength: inputRawString.length
     };
+}
+
+function filterFrequent(map, minimumFrequencyToKeep) {
+    return new Map([...map.entries()].filter(e => e[1] >= minimumFrequencyToKeep));
 }
 
 function getOrdered(map) {
