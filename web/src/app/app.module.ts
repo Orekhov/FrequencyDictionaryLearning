@@ -31,6 +31,7 @@ import { mydictFeatureKey } from './state/mydict/mydict.feature';
 import * as filtersReducer from './state/mydict/filters.reducer';
 import * as ngramReducer from './state/mydict/ngram.reducer';
 import { NGramDetailEffects } from './state/mydict/ngram.effects';
+import { AddRawDialog } from './add-ngrams/add-raw/add-raw.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { NGramDetailEffects } from './state/mydict/ngram.effects';
     WelcomeComponent,
     LoginInfoComponent,
     AddNgramsComponent,
-    FiltersComponent
+    FiltersComponent,
+    AddRawDialog
   ],
   imports: [
     BrowserModule,

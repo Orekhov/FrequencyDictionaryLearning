@@ -1,0 +1,19 @@
+div.rawTextInput>form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  div.rawTextInput>form>* {
+    margin: 10px 0;
+  }
+  
+  div.rawTextInput mat-form-field {
+    width: 100%;
+  }
+  
+  div.rawTextInput button {
+    display: flex;
+    flex-direction: column;
+  }
+  

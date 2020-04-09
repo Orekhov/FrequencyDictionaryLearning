@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-
-const SMALL_WIDTH = 720;
+import { ScreenSizeService } from '../services/screen-size.service';
 
 @Component({
   selector: 'app-main-page',
@@ -12,7 +11,11 @@ export class MainPageComponent implements OnInit {
   opened: boolean;
   currentPageDisplayName: string;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private router: Router, 
+    private activatedRoute: ActivatedRoute,
+    private screenSizeService: ScreenSizeService
+    ) { }
 
   ngOnInit() {
     this.opened = false;
@@ -25,7 +28,7 @@ export class MainPageComponent implements OnInit {
   }
 
   isScreenSmall(): boolean {
-    return this.mediaMatcher.matches;
+    return this.screenSizeService.isScreenSmall();
   }
 
   private updateTitle () {
@@ -36,7 +39,4 @@ export class MainPageComponent implements OnInit {
       });
     }
   }
-
-  private mediaMatcher: MediaQueryList = matchMedia(`(max-width: ${SMALL_WIDTH}px)`);
-
 }
