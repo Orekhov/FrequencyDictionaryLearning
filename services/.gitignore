@@ -21,3 +21,4 @@
 # other
 /fdl-web
 serviceAccountKey.json
+mongoConnectionUrl.json

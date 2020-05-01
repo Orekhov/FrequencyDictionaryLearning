@@ -1,6 +1,7 @@
 const express = require('express');
 const wordsMock = require('./mock-data/words');
 const data = require('./data');
+const ftm = require('./data-access/firestore-to-mongo');
 const ngramGenerator = require('./services/ngram-generator');
 
 var router = express.Router();
@@ -106,6 +107,12 @@ router.post('/add-ngrams/raw/:lang/', async (req, res) => {
 router.get('/testadd', (req, res) => {
     data.dataAccess.insertUnigram({ ngram: "test", known: true, count: 42424, updated: new Date(Date.now()) });
     res.status(200).send('Added!').end();
+});
+
+router.post('/export-to-mongo', async (req, res) => {
+    await ftm.init();
+    ftm.runExport(); // no need to await 
+    res.status(200).send('Export started.').end();
 });
 
 async function testBackgroundJob (seconds) {

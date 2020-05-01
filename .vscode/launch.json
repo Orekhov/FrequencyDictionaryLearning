@@ -14,6 +14,13 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Start with mongo",
+            "program": "${workspaceFolder}\\services\\main.js",
+            "args": ["-d", "mongo"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Mocha All",
             "program": "${workspaceFolder}/services/node_modules/mocha/bin/_mocha",
             "args": [

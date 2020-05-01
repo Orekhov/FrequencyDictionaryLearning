@@ -1,8 +1,11 @@
 const Firestore = require('@google-cloud/firestore');
-// Docs at https://googleapis.dev/nodejs/firestore/latest/CollectionReference.html
+// Docs:
+// https://googleapis.dev/nodejs/firestore/latest/CollectionReference.html
+// https://docs.mongodb.com/manual/reference/method/js-collection/
 const fs = require('fs-extra');
 const path = require('path');
 const translator = require('./translator');
+const shared = require('./shared');
 
 const serviceAccountKeyJsonPath = "serviceAccountKey.json"
 let db;
@@ -22,7 +25,7 @@ function insertUnigram(unigram) {
 
 async function getNgrams(params) {
     const { userId, language, nGramType, limit, known } = params;
-    const collectionName = getCollectionName(nGramType);
+    const collectionName = shared.getCollectionName(nGramType);
     const collection = db.collection(collectionName);
     let snapshot = await collection
         .where('user', '==', userId)
@@ -41,10 +44,10 @@ async function getNgrams(params) {
 
 async function getNgramDetail(params) {
     const { userId, nGramType, id } = params;
-    const collectionName = getCollectionName(nGramType);
+    const collectionName = shared.getCollectionName(nGramType);
     const doc = await db.doc(`${collectionName}/${id}`).get();
     const docData = doc.data();
-    validateUserIsAuthorized(docData, userId);
+    shared.validateUserIsAuthorized(docData, userId);
     const valueToReturn = {
         id: id,
         item: docData.item,
@@ -62,11 +65,11 @@ async function getNgramDetail(params) {
 
 async function setNgramKnownState(params) {
     const { userId, nGramType, id, known } = params;
-    const collectionName = getCollectionName(nGramType);
+    const collectionName = shared.getCollectionName(nGramType);
     const docRef = db.doc(`${collectionName}/${id}`);
     const doc = await docRef.get();
     const docData = doc.data();
-    validateUserIsAuthorized(docData, userId);
+    shared.validateUserIsAuthorized(docData, userId);
     await docRef.update({ known });
 }
 
@@ -198,7 +201,7 @@ async function uploadNgramsInTheBackground(params) {
 
 async function uploadNGrams(params) {
     const { nGramType, nGrams, userId, language, sourceNumber, alreadyUploadedCount, uploadInfoRef } = params;
-    const collectionName = getCollectionName(nGramType);
+    const collectionName = shared.getCollectionName(nGramType);
     const collectionRef = db.collection(collectionName);
     let uploadedCount = 0;
     for (var [key, value] of nGrams) {
@@ -258,15 +261,6 @@ async function uploadNGram(params) {
     }
 }
 
-function getCollectionName(nGramType) {
-    const supportedTypes = ['unigrams', 'bigrams', 'trigrams'];
-    if (supportedTypes.includes(nGramType)) {
-        return nGramType;
-    } else {
-        throw `${nGramType} is not a valid collection name`;
-    }
-}
-
 function getSourcesCollectionRef() {
     const collectionName = 'sources';
     return db.collection(collectionName);
@@ -284,12 +278,6 @@ function convertToReturnType(id, dbDoc) {
         known: dbDoc.known,
         updated: dbDoc.updated.toDate()
     };
-}
-
-function validateUserIsAuthorized(docData, userId) {
-    if (docData.user !== userId) {
-        throw "Not authorized to access";
-    }
 }
 
 module.exports = {
