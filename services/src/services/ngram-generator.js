@@ -13,6 +13,16 @@ function generateUnigrams(allTokens) {
             }
         });
     });
+    const isInvalid = token => {
+        const atLeastOneDigit = /[0-9]/;
+        const digitIsPresent = atLeastOneDigit.test(token);
+        return digitIsPresent;
+    }
+    for (let [key, value] of unigramsMap) {
+        if(isInvalid(key)) {
+            unigramsMap.delete(key);
+        }
+    }
     return unigramsMap;
 }
 
@@ -34,6 +44,16 @@ function generateNgrams(allTokens, n) {
             }
         }
     });
+    const isInvalid = token => {
+        const atLeastOneDigit = /[0-9]/;
+        const digitIsPresent = atLeastOneDigit.test(token);
+        return digitIsPresent;
+    }
+    for (let [key, value] of ngramsMap) {
+        if(isInvalid(key)) {
+            ngramsMap.delete(key);
+        }
+    }
     return ngramsMap;
 }
 
@@ -78,7 +98,7 @@ function filterFrequent(map, minimumFrequencyToKeep) {
 }
 
 function getOrdered(map) {
-    return new Map([...map.entries()].sort((a, b) =>  b[1] - a[1]));
+    return new Map([...map.entries()].sort((a, b) => b[1] - a[1]));
 }
 
 module.exports = {

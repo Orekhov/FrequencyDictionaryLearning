@@ -126,7 +126,7 @@ async function startUploadingNgrams(params) {
 
     await uploadNewSourceIdentity(sourceIdentityDbData);
 
-    await uploadNgrams({
+    await uploadAllNgrams({
         userId, language: lang, allNgrams, sourceNumber: newSourceNumber
     });
 
@@ -146,7 +146,7 @@ async function uploadNewSourceIdentity(sourceIdentityDbData) {
     return newId;
 }
 
-async function uploadNgrams(params) {
+async function uploadAllNgrams(params) {
     const { userId, language, allNgrams, sourceNumber } = params;
     const { unigrams, bigrams, trigrams, unigramsCount, bigramsCount, trigramsCount, charLength } = allNgrams;
 
