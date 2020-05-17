@@ -261,8 +261,8 @@ async function uploadNGrams_AlternativeApproach(params) {
                     $set: {
                         counts: {
                             $cond: {
-                                if: { $isArray: "$counts" }, 
-                                then: { $concatArrays: [ "$counts", [{ s: sourceNumber, c: value }] ] }, 
+                                if: { $isArray: "$counts" },
+                                then: { $concatArrays: ["$counts", [{ s: sourceNumber, c: value }]] },
                                 else: [{ s: sourceNumber, c: value }]
                             }
                         }
@@ -302,6 +302,19 @@ async function setNgramKnownState(params) {
     await collection.updateOne(filter, update);
 }
 
+async function getSources(params) {
+    const { userId, language } = params;
+    const collection = getCollection('sources');
+    const sources = await collection.find({
+        user: userId,
+        lang: language
+    }).toArray();
+    return sources.map(s => ({
+        id: s._id.toString(),
+        description: s.description
+    }));
+}
+
 function getCollection(collectionName) {
     return getDb().collection(collectionName);
 }
@@ -320,5 +333,6 @@ module.exports = {
     getNgrams: getNgrams,
     getNgramDetail: getNgramDetail,
     startUploadingNgrams: startUploadingNgrams,
-    setNgramKnownState: setNgramKnownState
+    setNgramKnownState: setNgramKnownState,
+    getSources: getSources
 }

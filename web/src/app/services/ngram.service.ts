@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RawTextInput, NGramEntry, NGramFilters, NGramDetailEntry } from '../types/types';
+import { RawTextInput, NGramEntry, NGramFilters, NGramDetailEntry, Source } from '../types/types';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +25,9 @@ export class NgramService {
 
   public addRaw(rawText: RawTextInput): Observable<any> {
     return this.httpClient.post<RawTextInput>(`/api/add-ngrams/raw/no`, rawText);
+  }
+
+  public getSources(): Observable<Source[]> {
+    return this.httpClient.get<Source[]>(`/api/sources/no`);
   }
 }

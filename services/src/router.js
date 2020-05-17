@@ -104,6 +104,15 @@ router.post('/add-ngrams/raw/:lang/', async (req, res) => {
     res.status(200).send({ uploadId }).end();
 });
 
+router.get('/sources/:language', async (req, res) => {
+    const { language } = req.params;
+    const result = await data.dataAccess.getSources({
+        language,
+        userId: req.authenticatedUser.email
+    });
+    res.status(200).send(result).end();
+});
+
 router.get('/testadd', (req, res) => {
     data.dataAccess.insertUnigram({ ngram: "test", known: true, count: 42424, updated: new Date(Date.now()) });
     res.status(200).send('Added!').end();

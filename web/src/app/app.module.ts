@@ -30,7 +30,9 @@ import { FiltersComponent } from './mydict/filters/filters.component';
 import { mydictFeatureKey } from './state/mydict/mydict.feature';
 import * as filtersReducer from './state/mydict/filters.reducer';
 import * as ngramReducer from './state/mydict/ngram.reducer';
+import * as sourcesReducer from './state/mydict/sources.reducer';
 import { NGramDetailEffects } from './state/mydict/ngram.effects';
+import { SourcesEffects } from './state/mydict/sources.effects';
 import { AddRawDialog } from './add-ngrams/add-raw/add-raw.component';
 
 @NgModule({
@@ -63,7 +65,8 @@ import { AddRawDialog } from './add-ngrams/add-raw/add-raw.component';
     }),
     StoreModule.forFeature(mydictFeatureKey, {
       filters: filtersReducer.reducer,
-      ngramDetail: ngramReducer.reducer
+      ngramDetail: ngramReducer.reducer,
+      sources: sourcesReducer.reducer
     }),
     StoreDevtoolsModule.instrument({
       name: 'ngram dict devtools',
@@ -71,7 +74,7 @@ import { AddRawDialog } from './add-ngrams/add-raw/add-raw.component';
       logOnly: environment.production
     }),
     EffectsModule.forRoot([NGramsEffects]),
-    EffectsModule.forFeature([NGramDetailEffects])
+    EffectsModule.forFeature([NGramDetailEffects, SourcesEffects])
   ],
   providers: [
     AuthService,

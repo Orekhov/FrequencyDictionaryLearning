@@ -1,5 +1,6 @@
-import { NGramFilters } from '../../types/types';
+import { NGramFilters, Source } from '../../types/types';
 import { NGramDetailEntry } from '../../types/types';
+import { Sources } from '../../types/types';
 
 export interface MyDictFiltersState extends NGramFilters { }
 
@@ -9,7 +10,10 @@ export interface NGramDetailState {
   isSettingKnownState: boolean;
 }
 
+export interface SourcesState extends Sources { }
+
 export interface MyDictFeatureState {
   filters: MyDictFiltersState;
+  sources: SourcesState;
   ngramDetail: NGramDetailState;
 }

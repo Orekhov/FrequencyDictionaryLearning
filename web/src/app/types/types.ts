@@ -27,3 +27,12 @@ export interface NGramFilters {
     known: string;
     limit: number;
 }
+
+export interface Source {
+  id: string;
+  description: string;
+}
+
+export interface Sources {
+  sources: Source[];
+}
