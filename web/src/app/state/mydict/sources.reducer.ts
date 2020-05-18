@@ -5,7 +5,7 @@ import { sourcesStateInitialState } from './sources.model';
 
 const sourcesReducer = createReducer(
     sourcesStateInitialState,
-    on(SourcesActions.loadSuccessAction, (state: SourcesState, action): SourcesState => ({ ...state, sources: { ...action.sources.sources } })),
+    on(SourcesActions.loadSuccessAction, (state: SourcesState, action): SourcesState => ({ ...state, sources: action.sources.sources })),
 );
 
 export function reducer(state: SourcesState | undefined, action: Action) {

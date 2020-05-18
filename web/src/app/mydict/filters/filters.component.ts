@@ -4,7 +4,7 @@ import { MyDictFiltersState } from '../../state/mydict/mydict.states';
 import { myDictFiltersSelector } from '../../state/mydict/filters.selector';
 import { sourcesSelector } from '../../state/mydict/sources.selector';
 import { loadSourcesAction } from '../../state/mydict/sources.actions';
-import { updateKnownAction, updateTypeAction } from '../../state/mydict/filters.actions';
+import { updateKnownAction, updateTypeAction, updateSourcesAction } from '../../state/mydict/filters.actions';
 import { NGramFilters, Source } from '../../types/types';
 
 @Component({
@@ -37,6 +37,10 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   onNgramTypeChanged(e) {
     this.store.dispatch(updateTypeAction({ nGramType: e.value }));
+  }
+
+  onSourceChanged(e) {
+    this.store.dispatch(updateSourcesAction({ sources: e.value }));
   }
 
 }

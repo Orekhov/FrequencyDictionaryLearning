@@ -26,6 +26,7 @@ export interface NGramFilters {
     type: string;
     known: string;
     limit: number;
+    sources: string[];
 }
 
 export interface Source {

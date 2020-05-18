@@ -17,6 +17,7 @@
           </mat-radio-button>
         </mat-radio-group>
       </div>
+
       <div class='filter-row'>
         <label>Ngram type:</label>
         <mat-radio-group [value]="filters.type" (change)="onNgramTypeChanged($event)">
@@ -30,6 +31,15 @@
             trigram
           </mat-radio-button>
         </mat-radio-group>
+      </div>
+
+      <div class='filter-row' *ngIf="sources">
+        <label>Source:</label>
+        <mat-select (selectionChange)="onSourceChanged($event)" multiple>
+          <mat-option *ngFor="let source of sources" [value]="source.id">
+            {{source.description}}
+          </mat-option>
+        </mat-select>
       </div>
 
     </mat-expansion-panel>

@@ -11,7 +11,10 @@ export class NgramService {
   constructor(private httpClient: HttpClient) { }
 
   public getNgrams(filters: NGramFilters): Observable<NGramEntry[]> {
-    const params = new HttpParams().set('known', filters.known).set('limit', filters.limit.toString());
+    const params = new HttpParams()
+    .set('known', filters.known)
+    .set('limit', filters.limit.toString())
+    .set('sources', JSON.stringify(filters.sources));
     return this.httpClient.get<NGramEntry[]>(`/api/ngrams/no/${filters.type}`, { params });
   }
 
