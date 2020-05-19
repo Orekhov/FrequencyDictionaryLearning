@@ -42,5 +42,12 @@
         </mat-select>
       </div>
 
+      <div class='filter-row'>
+        <mat-form-field class="example-full-width">
+          <mat-label>Search</mat-label>
+          <input matInput placeholder="Search" [value]="search" (change)="onSearchChanged($event)">
+        </mat-form-field>
+      </div>
+
     </mat-expansion-panel>
   </mat-accordion>

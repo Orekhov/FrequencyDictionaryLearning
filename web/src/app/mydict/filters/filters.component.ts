@@ -4,7 +4,7 @@ import { MyDictFiltersState } from '../../state/mydict/mydict.states';
 import { myDictFiltersSelector } from '../../state/mydict/filters.selector';
 import { sourcesSelector } from '../../state/mydict/sources.selector';
 import { loadSourcesAction } from '../../state/mydict/sources.actions';
-import { updateKnownAction, updateTypeAction, updateSourcesAction } from '../../state/mydict/filters.actions';
+import { updateKnownAction, updateTypeAction, updateSourcesAction, updateSearchAction } from '../../state/mydict/filters.actions';
 import { NGramFilters, Source } from '../../types/types';
 
 @Component({
@@ -16,6 +16,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   public filters: NGramFilters;
   public sources: Source[];
+  public search: string = '';
 
   public sourcesSubscription: any;
 
@@ -41,6 +42,10 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   onSourceChanged(e) {
     this.store.dispatch(updateSourcesAction({ sources: e.value }));
+  }
+
+  onSearchChanged(e) {
+    this.store.dispatch(updateSearchAction({ search: e.target.value }));
   }
 
 }

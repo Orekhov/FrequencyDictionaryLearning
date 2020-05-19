@@ -6,7 +6,8 @@ const initialState: MyDictFiltersState = {
     known: 'false',
     limit: 50,
     type: 'unigrams',
-    sources: []
+    sources: [],
+    search: ''
 }
 
 const mydictFiltersReducer = createReducer(
@@ -14,6 +15,7 @@ const mydictFiltersReducer = createReducer(
     on(FiltersActions.updateKnownAction, (state, action) => ({ ...state, known: action.known })),
     on(FiltersActions.updateTypeAction, (state, action) => ({ ...state, type: action.nGramType})),
     on(FiltersActions.updateSourcesAction, (state, action) => ({ ...state, sources: action.sources})),
+    on(FiltersActions.updateSearchAction, (state, action) => ({ ...state, search: action.search})),
 );
 
 export function reducer(state: MyDictFiltersState | undefined, action: Action) {

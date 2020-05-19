@@ -14,3 +14,8 @@ export const updateSourcesAction = createAction(
     '[MyDictFilters] Display sources updated',
     props<{ sources: string[] }>()
 )
+
+export const updateSearchAction = createAction(
+    '[MyDictFilters] Search updated',
+    props<{ search: string }>()
+)

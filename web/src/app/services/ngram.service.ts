@@ -11,10 +11,15 @@ export class NgramService {
   constructor(private httpClient: HttpClient) { }
 
   public getNgrams(filters: NGramFilters): Observable<NGramEntry[]> {
-    const params = new HttpParams()
+    let params = new HttpParams()
     .set('known', filters.known)
-    .set('limit', filters.limit.toString())
-    .set('sources', JSON.stringify(filters.sources));
+    .set('limit', filters.limit.toString());
+    if(filters.sources && filters.sources.length > 0) {
+      params = params.set('sources', JSON.stringify(filters.sources));
+    }
+    if(filters.search) {
+      params = params.set('search', filters.search);
+    }
     return this.httpClient.get<NGramEntry[]>(`/api/ngrams/no/${filters.type}`, { params });
   }
 
