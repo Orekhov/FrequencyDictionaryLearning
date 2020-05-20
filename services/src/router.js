@@ -22,18 +22,24 @@ router.get('/test-bg-run', async (req, res) => {
 });
 
 router.get('/ngrams/:lang/:type', async (req, res) => {
-    const { limit, known } = req.query;
+    const { limit, known, sources, search } = req.query;
     const { lang, type } = req.params;
     limitN = parseInt(limit);
     if (!Number.isInteger(limitN)) {
         limitN = 10;
     }
     var knownB = (known === 'true');
+    let sourcesObj;
+    if(sources && sources.length > 1) {
+        sourcesObj= JSON.parse(sources);
+    }
     try {
         const ngrams = await data.dataAccess.getNgrams({
             userId: req.authenticatedUser.email,
             language: lang,
             nGramType: type,
+            sources: sourcesObj,
+            search,
             limit: limitN,
             known: knownB
         });

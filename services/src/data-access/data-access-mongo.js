@@ -29,7 +29,7 @@ async function insertUnigram(unigram) {
 }
 
 async function getNgrams(params) {
-    const { userId, language, nGramType, limit, known } = params;
+    const { userId, language, nGramType, limit, known, sources, search } = params;
     const collectionName = shared.getCollectionName(nGramType);
     const collection = getCollection(collectionName);
     const query = {
@@ -37,6 +37,22 @@ async function getNgrams(params) {
         lang: language,
         known: known
     };
+    if (sources && sources.length > 0) {
+        const sourceNumbers = await getSourceNumbers(sources);
+        query.counts = {
+            $elemMatch: { s: { $in: sourceNumbers } }
+        }
+    }
+    if(search) {
+        const searchStringIsValid = /[A-Za-zæøåÆØÅäÄöÖüÜ]+/.test(search);
+        if(!searchStringIsValid) {
+            return [];
+        }
+
+        query.item = {
+            $regex: search
+        }
+    }
     const sort = {
         totalCount: -1
     };
@@ -50,6 +66,21 @@ async function getNgrams(params) {
         delete n._id;
     });
     return ngrams;
+}
+
+async function getSourceNumbers(sourceIds) {
+    const objectIds = sourceIds.map(sourceId => ObjectID(sourceId));
+    const collection = getCollection("sources");
+    const sourceNumbers = await collection.aggregate([
+        {
+            $match: { _id: { $in: objectIds } }
+        }, 
+        {
+            $project: { _id:0, sourceNumber: 1 }
+        }
+    ]).toArray();
+    const sourceNumbersArray = sourceNumbers.map(o => o.sourceNumber);
+    return sourceNumbersArray
 }
 
 async function getNgramDetail(params) {
