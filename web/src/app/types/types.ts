@@ -1,13 +1,13 @@
 export interface RawTextInput {
-    sourceName: string;
-    rawText: string;
+  sourceName: string;
+  rawText: string;
 }
 
 export interface NGramEntry {
-    id: string;
-    item: string;
-    known: boolean;
-    totalCount: number;
+  id: string;
+  item: string;
+  known: boolean;
+  totalCount: number;
 }
 
 export interface NGramDetailSource {
@@ -23,11 +23,11 @@ export interface NGramDetailEntry extends NGramEntry {
 }
 
 export interface NGramFilters {
-    type: string;
-    known: string;
-    limit: number;
-    sources: string[];
-    search: string;
+  type: string;
+  known: string;
+  limit: number;
+  sources: string[];
+  search: string;
 }
 
 export interface Source {
@@ -37,4 +37,17 @@ export interface Source {
 
 export interface Sources {
   sources: Source[];
+}
+
+export interface SourceStats {
+  uniqueCountTotal: number;
+  uniqueCountKnown: number;
+  uniqueCountKnownPct: number;
+  uniqueCountUnknown: number;
+  uniqueCountUnknownPct: number;
+  frequencyCountTotal: number;
+  frequencyCountKnown: number;
+  frequencyCountKnownPct: number;
+  frequencyCountUnknown: number;
+  frequencyCountUnknownPct: number;
 }

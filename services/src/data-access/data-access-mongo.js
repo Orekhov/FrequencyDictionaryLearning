@@ -43,9 +43,9 @@ async function getNgrams(params) {
             $elemMatch: { s: { $in: sourceNumbers } }
         }
     }
-    if(search) {
+    if (search) {
         const searchStringIsValid = /[A-Za-zæøåÆØÅäÄöÖüÜ]+/.test(search);
-        if(!searchStringIsValid) {
+        if (!searchStringIsValid) {
             return [];
         }
 
@@ -74,9 +74,9 @@ async function getSourceNumbers(sourceIds) {
     const sourceNumbers = await collection.aggregate([
         {
             $match: { _id: { $in: objectIds } }
-        }, 
+        },
         {
-            $project: { _id:0, sourceNumber: 1 }
+            $project: { _id: 0, sourceNumber: 1 }
         }
     ]).toArray();
     const sourceNumbersArray = sourceNumbers.map(o => o.sourceNumber);
@@ -346,6 +346,68 @@ async function getSources(params) {
     }));
 }
 
+async function getSourceStats(params) {
+    const { userId, sourceNumber } = params;
+    const collection = getCollection('unigrams');
+    const match = {
+        $match: {
+            "user": { $eq: userId },
+            "counts.s": sourceNumber
+        }
+    };
+    const getCorrectCount = {
+        input: "$counts",
+        initialValue: 0,
+        in: { $add: ["$$value", { $cond: { if: { $eq: ["$$this.s", sourceNumber] }, then: "$$this.c", else: 0 } }] }
+    }
+    const group = {
+        $group: {
+            _id: "$count",
+            uniqueCountTotal: { $sum: 1 },
+            uniqueCountKnown: { $sum: { $cond: { if: { $eq: ["$known", true] }, then: 1, else: 0 } } },
+            uniqueCountUnknown: { $sum: { $cond: { if: { $eq: ["$known", true] }, then: 0, else: 1 } } },
+            frequencyCountKnown: {
+                $sum: {
+                    $cond: {
+                        if: {
+                            $eq: ["$known", true]
+                        },
+                        then: {
+                            $reduce: getCorrectCount
+                        },
+                        else: 0
+                    }
+                }
+            },
+            frequencyCountUnknown: {
+                $sum: {
+                    $cond: {
+                        if: {
+                            $eq: ["$known", true]
+                        },
+                        then: 0,
+                        else: {
+                            $reduce: getCorrectCount
+                        }
+                    }
+                }
+            }
+        }
+    };
+    const sourceStats = await collection.aggregate([
+        match,
+        group
+    ]).next();
+
+    sourceStats.uniqueCountKnownPct = (sourceStats.uniqueCountKnown / sourceStats.uniqueCountTotal) * 100;
+    sourceStats.uniqueCountUnknownPct = (sourceStats.uniqueCountUnknown / sourceStats.uniqueCountTotal) * 100;
+    sourceStats.frequencyCountTotal = sourceStats.frequencyCountKnown + sourceStats.frequencyCountUnknown;
+    sourceStats.frequencyCountKnownPct = (sourceStats.frequencyCountKnown / sourceStats.frequencyCountTotal) * 100;
+    sourceStats.frequencyCountUnknownPct = (sourceStats.frequencyCountUnknown / sourceStats.frequencyCountTotal) * 100;
+
+    return sourceStats;
+}
+
 function getCollection(collectionName) {
     return getDb().collection(collectionName);
 }
@@ -365,5 +427,6 @@ module.exports = {
     getNgramDetail: getNgramDetail,
     startUploadingNgrams: startUploadingNgrams,
     setNgramKnownState: setNgramKnownState,
-    getSources: getSources
+    getSources: getSources,
+    getSourceStats: getSourceStats
 }

@@ -34,6 +34,7 @@ import * as sourcesReducer from './state/mydict/sources.reducer';
 import { NGramDetailEffects } from './state/mydict/ngram.effects';
 import { SourcesEffects } from './state/mydict/sources.effects';
 import { AddRawDialog } from './add-ngrams/add-raw/add-raw.component';
+import { SourceViewComponent } from './source-view/source-view.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { AddRawDialog } from './add-ngrams/add-raw/add-raw.component';
     LoginInfoComponent,
     AddNgramsComponent,
     FiltersComponent,
-    AddRawDialog
+    AddRawDialog,
+    SourceViewComponent
   ],
   imports: [
     BrowserModule,

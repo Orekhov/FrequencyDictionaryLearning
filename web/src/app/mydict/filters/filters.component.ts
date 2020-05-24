@@ -6,6 +6,7 @@ import { sourcesSelector } from '../../state/mydict/sources.selector';
 import { loadSourcesAction } from '../../state/mydict/sources.actions';
 import { updateKnownAction, updateTypeAction, updateSourcesAction, updateSearchAction } from '../../state/mydict/filters.actions';
 import { NGramFilters, Source } from '../../types/types';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-filters',
@@ -18,7 +19,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
   public sources: Source[];
   public search: string = '';
 
-  public sourcesSubscription: any;
+  public sourcesSubscription: Subscription;
 
   constructor(private store: Store<MyDictFiltersState>) { }
 

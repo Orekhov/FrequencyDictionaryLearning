@@ -9,6 +9,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { AuthGuard } from './services/auth.guard';
 import { WelcomeGuard } from './services/welcome.guard';
 import { AddNgramsComponent } from './add-ngrams/add-ngrams.component';
+import { SourceViewComponent } from './source-view/source-view.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,13 @@ const routes: Routes = [
         component: StatsComponent,
         data: {
           title: 'My statistics'
+        }
+      },
+      {
+        path: 'source/:sourceNumber',
+        component: SourceViewComponent,
+        data: {
+          title: 'Source view'
         }
       },
       {

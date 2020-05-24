@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RawTextInput, NGramEntry, NGramFilters, NGramDetailEntry, Source } from '../types/types';
+import { RawTextInput, NGramEntry, NGramFilters, NGramDetailEntry, Source, SourceStats } from '../types/types';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +12,12 @@ export class NgramService {
 
   public getNgrams(filters: NGramFilters): Observable<NGramEntry[]> {
     let params = new HttpParams()
-    .set('known', filters.known)
-    .set('limit', filters.limit.toString());
-    if(filters.sources && filters.sources.length > 0) {
+      .set('known', filters.known)
+      .set('limit', filters.limit.toString());
+    if (filters.sources && filters.sources.length > 0) {
       params = params.set('sources', JSON.stringify(filters.sources));
     }
-    if(filters.search) {
+    if (filters.search) {
       params = params.set('search', filters.search);
     }
     return this.httpClient.get<NGramEntry[]>(`/api/ngrams/no/${filters.type}`, { params });
@@ -38,4 +38,9 @@ export class NgramService {
   public getSources(): Observable<Source[]> {
     return this.httpClient.get<Source[]>(`/api/sources/no`);
   }
+
+  public getSourceStats(sourceNumber): Observable<SourceStats> {
+    return this.httpClient.get<SourceStats>(`/api/source-stats/${sourceNumber}`);
+  }
+
 }

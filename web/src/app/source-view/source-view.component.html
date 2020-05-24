@@ -1,0 +1,15 @@
+<div *ngIf="sourceStats">
+    Total unique unigrams: {{ sourceStats.uniqueCountTotal }}
+    <br>
+    Known: {{ sourceStats.uniqueCountKnown }} ( {{ sourceStats.uniqueCountKnownPct }} %)
+    <br>
+    Unknown: {{ sourceStats.uniqueCountUnknown }} ( {{ sourceStats.uniqueCountUnknownPct }} %)
+    <br>
+    <br>
+
+    Total occurences count: {{ sourceStats.frequencyCountTotal }}
+    <br>
+    Known: {{ sourceStats.frequencyCountKnown }} ( {{ sourceStats.frequencyCountKnownPct }} %)
+    <br>
+    Unknown: {{ sourceStats.frequencyCountUnknown }} ( {{ sourceStats.frequencyCountUnknownPct }} %)
+</div>

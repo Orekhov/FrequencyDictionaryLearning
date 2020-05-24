@@ -45,7 +45,7 @@
                 <ng-container matColumnDef="source">
                   <th mat-header-cell *matHeaderCellDef> Source </th>
                   <td mat-cell *matCellDef="let element">
-                    {{element.sourceDescription}}
+                    <a [routerLink]="['/source', element.source]">{{element.sourceDescription}}</a>
                   </td>
                 </ng-container>
 

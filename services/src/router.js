@@ -119,6 +119,20 @@ router.get('/sources/:language', async (req, res) => {
     res.status(200).send(result).end();
 });
 
+router.get('/source-stats/:sourceNumber', async (req, res) => {
+    const { sourceNumber } = req.params;
+    const sourceNumberN = parseInt(sourceNumber);
+    if (!Number.isInteger(sourceNumberN)) {
+        res.status(400).send(`sourceNumber param is missing`).end();
+        return;
+    }
+    const result = await data.dataAccess.getSourceStats({
+        sourceNumber: sourceNumberN,
+        userId: req.authenticatedUser.email
+    });
+    res.status(200).send(result).end();
+});
+
 router.get('/testadd', (req, res) => {
     data.dataAccess.insertUnigram({ ngram: "test", known: true, count: 42424, updated: new Date(Date.now()) });
     res.status(200).send('Added!').end();
