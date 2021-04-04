@@ -8,8 +8,9 @@ async function start() {
         const program = new commander.Command();
         program.option('-d, --data-source <type>', 'Underlying data source to be used', config.mongoDataSource);
         program.parse(process.argv);
+        const options = program.opts();
         config.init({
-            dataSource: program.dataSource
+            dataSource: options.dataSource
         });
         await data.dataAccess.init();
         server.startServer();
