@@ -6,3 +6,4 @@ TODO:
 - add source page (statistics)
   - beatify page
 - add undo when adding to known
+- deploy to azure
