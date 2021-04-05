@@ -32,14 +32,18 @@ async function getNgrams(params) {
     const { userId, language, nGramType, limit, known, sources, search } = params;
     const collectionName = shared.getCollectionName(nGramType);
     const collection = getCollection(collectionName);
-    const query = {
-        user: userId,
-        lang: language,
-        known: known
-    };
+
+    const matchCommand = {
+        $match: {
+            user: userId,
+            lang: language,
+            known: known
+        }
+    }
+    let sourceNumbers;
     if (sources && sources.length > 0) {
-        const sourceNumbers = await getSourceNumbers(sources);
-        query.counts = {
+        sourceNumbers = await getSourceNumbers(sources);
+        matchCommand.$match.counts = {
             $elemMatch: { s: { $in: sourceNumbers } }
         }
     }
@@ -49,18 +53,54 @@ async function getNgrams(params) {
             return [];
         }
 
-        query.item = {
+        matchCommand.$match.item = {
             $regex: search
         }
     }
-    const sort = {
-        totalCount: -1
-    };
-    const ngrams = await collection
-        .find(query)
-        .sort(sort)
-        .limit(limit)
-        .toArray();
+
+    const setCommand = {
+        $set: {}
+    }
+
+    if (sources && sources.length > 0) {
+        setCommand.$set.totalCountFiltered = {
+            "$reduce": {
+                input: "$counts",
+                initialValue: 0,
+                in: {
+                    $add: [
+                        "$$value",
+                        {
+                            $cond: {
+                                if: { $in: ["$$this.s", sourceNumbers] },
+                                then: "$$this.c",
+                                else: 0
+                            }
+                        },
+                    ]
+                }
+            }
+        };
+    } else {
+        setCommand.$set.totalCountFiltered = "$totalCount"
+    }
+
+    const sortCommand = {
+        $sort: {
+            totalCountFiltered: -1
+        }
+    }
+
+    const limitCommand = {
+        $limit: limit
+    }
+
+    const ngrams = await collection.aggregate([
+        matchCommand,
+        setCommand,
+        sortCommand,
+        limitCommand
+    ]).toArray();
     ngrams.forEach(n => {
         n.id = n._id;
         delete n._id;
