@@ -8,6 +8,7 @@ export interface NGramEntry {
   item: string;
   known: boolean;
   totalCount: number;
+  totalCountFiltered: number;
 }
 
 export interface NGramDetailSource {
